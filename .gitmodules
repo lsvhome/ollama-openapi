@@ -1,0 +1,3 @@
+[submodule "src/ollamasharp"]
+	path = ollamasharp
+	url = git@github.com:lsvhome/OllamaSharp.git

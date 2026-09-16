@@ -1,0 +1,10 @@
+.vscode
+bin
+obj
+.git
+logs
+*.user
+*.slnx
+*.v3.ncrunchsolution
+Exception_*.txt
+sessions*.json

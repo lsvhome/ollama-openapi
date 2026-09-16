@@ -1,0 +1,171 @@
+@page "/processing"
+@using OllamaOpenApi.Dto
+@using OllamaOpenApi.ServiceClient.Services
+@inject IOllamaApiService ApiService
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<PageTitle>Processing</PageTitle>
+
+<div class="container">
+    <h3 class="mb-4">Processing Management</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Processing Status</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="display-6 mb-3">
+                        <span class="badge @GetStatusClass()" style="font-size: 2rem;">
+                            @GetHumanReadableStatus()
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-primary" @onclick="Resume" disabled="@(Status == "InProgress")">
+                            <i class="bi bi-play-fill"></i> Resume
+                        </button>
+                        <button class="btn btn-secondary" @onclick="Pause" disabled="@(Status == "Paused")">
+                            <i class="bi bi-pause-fill"></i> Pause
+                        </button>
+                        <button class="btn btn-danger" @onclick="Interrupt">
+                            <i class="bi bi-stop-fill"></i> Interrupt
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Active Session</h5>
+                </div>
+                <div class="card-body">
+                    @if (ActiveSession != null)
+                    {
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>@ActiveSession.Title</strong><br />
+                                <small class="text-muted">ID: @ActiveSession.Id</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-primary" @onclick="GoToSession">
+                                View Session <i class="bi bi-arrow-right"></i>
+                                </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No active session.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Status = "Unknown";
+    private SessionDto? ActiveSession;
+    private System.Threading.Timer? _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshStatus();
+        
+        // Poll for status and active session every 3 seconds
+        _timer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(RefreshStatus);
+        }, null, 3000, 3000);
+    }
+
+    private async Task RefreshStatus()
+    {
+        try
+        {
+            Status = await ApiService.GetExecutionListStatusAsync();
+            ActiveSession = await ApiService.GetActiveExecutionSessionAsync();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error refreshing processing status: {ex.Message}");
+        }
+    }
+
+    private string GetHumanReadableStatus()
+    {
+        return Status switch
+        {
+            "InProgress" => "In Progress",
+            "Paused" => "Paused",
+            "Pausing" => "Pausing",
+            _ => Status
+        };
+    }
+
+    private string GetStatusClass()
+    {
+        return Status switch
+        {
+            "InProgress" => "bg-success",
+            "Paused" => "bg-warning text-dark",
+            "Pausing" => "bg-info text-dark",
+            _ => "bg-secondary"
+        };
+    }
+
+    private async Task Resume()
+    {
+        try
+        {
+            await ApiService.ResumeExecutionListAsync();
+            await RefreshStatus();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error resuming execution: {ex.Message}");
+        }
+    }
+
+    private async Task Pause()
+    {
+        try
+        {
+            await ApiService.PauseExecutionListAsync();
+            await RefreshStatus();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error pausing execution: {ex.Message}");
+        }
+    }
+
+    private async Task Interrupt()
+    {
+        try
+        {
+            await ApiService.InterruptExecutionListAsync();
+            await RefreshStatus();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error interrupting execution: {ex.Message}");
+        }
+    }
+
+    private void GoToSession()
+    {
+        if (ActiveSession != null)
+        {
+            NavigationManager.NavigateTo($"/sessionedit/{ActiveSession.Id}");
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}

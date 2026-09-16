@@ -1,0 +1,11 @@
+{
+    "McpServers": {
+        "ExampleMcpServerame": {
+            "Name": "ExampleMcpServerame",
+            "Url": "http://mcp-server:3001",
+            "Env": {
+                "ENVVARIABLENAME": "envVearableValue"
+            }
+        }
+    }
+}

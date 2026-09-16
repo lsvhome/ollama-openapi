@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="OllamaOpenApi.Dto/OllamaOpenApi.Dto.csproj" />
+  <Project Path="OllamaOpenApi.Service.Tests/OllamaOpenApi.Service.Tests.csproj" />
+  <Project Path="OllamaOpenApi.Service/OllamaOpenApi.Service.csproj" />
+  <Project Path="OllamaOpenApi.ServiceClient/OllamaOpenApi.ServiceClient.csproj" />
+  <Project Path="OllamaOpenApi.WebClient/OllamaOpenApi.WebClient.csproj" />
+  <Project Path="ollamasharp/src/OllamaSharp/OllamaSharp.csproj" />
+  <Project Path="ollamasharp/src/SourceGenerators/OllamaSharp.SourceGenerators.csproj" />
+  <Project Path="ollamasharp/demo/OllamaApiConsole.csproj" />
+</Solution>

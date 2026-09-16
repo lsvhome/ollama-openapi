@@ -1,0 +1,194 @@
+@page "/sessionedit/{SessionId:guid}"
+@using OllamaOpenApi.Dto
+@using OllamaOpenApi.ServiceClient.Services
+@using System.Threading
+@implements IDisposable
+@inject IOllamaApiService ApiService
+@inject NavigationManager NavManager
+@inject IJSRuntime JS
+
+<h3 class="mb-4 d-flex align-items-center">
+    Session Edit: @SessionId 
+    <span class="badge @(isSessionActive ? "bg-success" : "bg-secondary") ms-2">
+        @(isSessionActive ? "Active" : "Idle")
+    </span>
+    <button class="btn btn-danger btn-sm ms-auto" @onclick="DeleteSession">Delete Session</button>
+</h3>
+
+<div class="card mb-4">
+    <div class="card-header">Session Details & Processing Status</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-2">
+                    <button class="btn btn-sm btn-link p-0 me-2" @onclick="() => isSystemPromptVisible = !isSystemPromptVisible" style="text-decoration: none; vertical-align: baseline;">
+                        <strong class="text-dark">System Prompt</strong> @(isSystemPromptVisible ? "▲" : "▼")
+                    </button>
+                    @if (isSystemPromptVisible)
+                    {
+                        <div class="mt-1 p-2 bg-light border rounded small" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;">
+                            @session?.SystemPrompt
+                        </div>
+                    }
+                </div>
+                <p class="mb-0"><strong>Working Folder:</strong> @session?.WorkingFolder</p>
+            </div>
+            <div class="col-md-6 border-start">
+                <h5 class="mb-3">Processing Status</h5>
+                <div class="mb-3">
+                    <span class="badge @(executionStatus == "InProgress" ? "bg-success" : (executionStatus == "Pausing" ? "bg-warning" : "bg-secondary"))">
+                        @executionStatus
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="chat-window mb-3 p-3 border rounded bg-light" style="height: 60vh; overflow-y: auto;">
+            @if (session == null)
+            {
+                <p>Loading session...</p>
+            }
+            else
+            {
+                @foreach (var query in session.UserPrompts ?? new())
+                {
+                    <div class="mb-3">
+                        <div class="text-end">
+                            <div class="bg-primary text-white p-2 rounded d-inline-block" style="width: 80%;">
+                                @if (query.Status == UserPromptStatus.Draft)
+                                {
+                                    <textarea class="form-control form-control-sm bg-transparent text-white border-0 p-0" 
+                                              @bind="query.UserPromptText" 
+                                              @bind:event="oninput"
+                                              @onblur="() => UpdatePromptText(query)" 
+                                              style="outline: none; box-shadow: none; resize: none; min-width: 200px;" 
+                                              rows="1"></textarea>
+                                }
+                                else
+                                {
+                                    @query.UserPromptText
+                                }
+                            </div>
+                        </div>
+                        <div class="text-start mt-1">
+                            <div class="bg-white border p-2 rounded d-inline-block" style="max-width: 80%;">
+                                <div class="mb-1">
+                                    <span class="badge bg-secondary me-2">@query.Status</span>
+                                    @if (query.Status == UserPromptStatus.Draft || query.Status == UserPromptStatus.Ready)
+                                    {
+                                        <button class="btn btn-sm btn-outline-primary py-0" @onclick="() => TogglePromptStatus(query)">
+                                            @(query.Status == UserPromptStatus.Draft ? "Make Ready" : "Make Draft")
+                                        </button>
+                                    }
+                                </div>
+                                @if (query.Messages != null && query.Messages.Any())
+                                {
+                                    @foreach (var msg in query.Messages)
+                                    {
+                                        <div class="mb-2">
+                                            <div class="small">
+                                                <strong class="text-muted">@msg.Role:</strong> @msg.Content
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    @query.Response
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" @bind="userMessage" @bind:event="oninput" @onkeypress="HandleKeyPress" placeholder="Type a message..." />
+            <button class="btn btn-primary" @onclick="SendMessage">Send</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Guid SessionId { get; set; }
+    private SessionDto? session;
+    private string userMessage = "";
+    private Timer? refreshTimer;
+    private bool isSessionActive;
+    private bool isSystemPromptVisible = false;
+    private string executionStatus = "Unknown";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSession();
+        // Poll for updates
+        refreshTimer = new Timer(async _ => {
+            await LoadSession();
+            await InvokeAsync(StateHasChanged);
+        }, null, 0, 2000);
+    }
+
+    private async Task LoadSession()
+    {
+        session = await ApiService.GetSessionAsync(SessionId);
+        var activeSession = await ApiService.GetActiveExecutionSessionAsync();
+        isSessionActive = activeSession?.Id == SessionId;
+        executionStatus = await ApiService.GetExecutionListStatusAsync();
+    }
+
+    private async Task TogglePromptStatus(UserPromptDto query)
+    {
+        if (query.Status == UserPromptStatus.Draft)
+        {
+            await ApiService.SetUserPromptReadyAsync(SessionId, query.Id);
+        }
+        else if (query.Status == UserPromptStatus.Ready)
+        {
+            await ApiService.SetUserPromptUnreadyAsync(SessionId, query.Id);
+        }
+        await LoadSession();
+    }
+
+    private async Task UpdatePromptText(UserPromptDto query)
+    {
+        await ApiService.UpdateUserPromptTextAsync(SessionId, query.Id, new UpdateUserPromptTextRequest { Text = query.UserPromptText });
+        await LoadSession();
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(userMessage)) return;
+
+        await ApiService.AddUserPromptAsync(SessionId, new UpdateUserPromptTextRequest { Text = userMessage });
+        userMessage = "";
+        await LoadSession();
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task DeleteSession()
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete this session?");
+        if (confirmed)
+        {
+            await ApiService.DeleteSessionAsync(SessionId);
+            NavManager.NavigateTo("/sessions");
+        }
+    }
+
+    public void Dispose()
+    {
+        refreshTimer?.Dispose();
+    }
+}

@@ -1,0 +1,323 @@
+@page "/sessions"
+@using OllamaOpenApi.Dto
+@using OllamaOpenApi.ServiceClient.Services
+@using OllamaOpenApi.WebClient.Components
+@inject IOllamaApiService ApiService
+@inject NavigationManager NavManager
+@inject IJSRuntime JS
+
+<h3>Sessions</h3>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Create New Session</h5>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">Model</label>
+                    <select class="form-select" @bind="selectedModelName">
+                        @foreach (var model in models)
+                        {
+                            <option value="@model.Name">@model.Name (@model.SizeHumanReadable)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">System Prompt</label>
+                    <select class="form-select" @onchange="OnSystemPromptChanged">
+                        <option value="">-- None --</option>
+                        @foreach (var sp in systemPrompts)
+                        {
+                            <option value="@sp.Id" title="@sp.Text">
+                                @(sp.Text?.Length > 40 ? sp.Text.Substring(0, 37) + "..." : sp.Text)
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label">Think Level</label>
+                    <select class="form-select" @bind="selectedThinkLevel">
+                        <option value="none">None</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">System Prompt Text</label>
+                    <textarea class="form-control" rows="3" @bind="systemPromptText" placeholder="Custom system prompt..."></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label">Working Folder</label>
+                    <div class="input-group">
+                        <input class="form-control" @bind="workingFolder" placeholder="Path to working folder..." />
+                        <button class="btn btn-outline-secondary" @onclick="() => OpenFolderSelector(workingFolder)">
+                            <i class="bi bi-folder2-open"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label">Initial Prompt</label>
+                    <textarea class="form-control" rows="3" @bind="initialPrompt" placeholder="Initial Prompt"></textarea>
+                </div>
+            </div>
+            <div class="col-12 text-end">
+                <button class="btn btn-primary" @onclick="CreateSession">Create Session</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (showFolderSelector)
+{
+    <FolderSelector 
+            InitialPath="@folderSelectorPath" 
+            OnSelected="OnFolderSelected" 
+            OnCancel="() => showFolderSelector = false" />
+}
+
+<div class="mb-3">
+    <button class="btn btn-secondary me-2" @onclick="SaveAll">Save All</button>
+    <button class="btn btn-danger me-4" @onclick="ClearAll">Clear All</button>
+    <div class="form-check d-inline-block">
+        <input class="form-check-input" type="checkbox" @bind="showArchived" @bind:after="LoadSessions" id="showArchived">
+        <label class="form-check-label" for="showArchived">Show Archived</label>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th class="text-center">Priority</th>
+            <th class="text-center">System Prompt</th>
+            <th class="text-center">Working Folder</th>
+            <th>Status</th>
+            <th class="text-center">User Prompts</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var session in sessions)
+        {
+            <tr title="@GetSessionTooltip(session)">
+                <td class="text-truncate" style="max-width: 200px;">@(string.IsNullOrEmpty(session.Title) ? session.Id.ToString() : session.Title)</td>
+                <td class="text-center">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePriority(session, -1)">-</button>
+                        <span class="mx-2">@session.Priority</span>
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => ChangePriority(session, 1)">+</button>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" checked="@(!string.IsNullOrEmpty(session.SystemPrompt))" disabled />
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" checked="@(!string.IsNullOrEmpty(session.WorkingFolder))" disabled />
+                </td>
+                <td>@session.Status</td>
+                <td class="text-center">@session.UserPrompts?.Count</td>
+                <td>
+                    @if (session.Archived)
+                    {
+                        <button class="btn btn-sm btn-info me-2" @onclick="() => UnarchiveSession(session.Id)">Unarchive</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-secondary me-2" @onclick="() => ArchiveSession(session.Id)">Archive</button>
+                    }
+                    <button class="btn btn-sm btn-primary me-2" @onclick="() => OpenSession(session.Id)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteSession(session.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<SessionDto> sessions = new();
+    private List<ModelDto> models = new();
+    private List<SystemPrompt> systemPrompts = new();
+    private bool showArchived = false;
+
+    private string? selectedModelName = "";
+    private int? selectedSystemPromptId = null;
+    private string systemPromptText = "";
+    private string selectedThinkLevel = "auto";
+    private string initialPrompt = "";
+    private string workingFolder = "";
+
+    private bool showFolderSelector = false;
+    private string folderSelectorPath = "";
+    private Guid? folderSelectorSessionId = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        await LoadSessions();
+        models = await ApiService.GetModelsAsync();
+        systemPrompts = await ApiService.GetSystemPromptsAsync();
+
+        // Model Selection: Default -> First
+        var defaultModel = models.FirstOrDefault(m => m.IsDefault);
+        
+        if (defaultModel != null && !string.IsNullOrEmpty(defaultModel.Name))
+        {
+            selectedModelName = defaultModel.Name;
+        }
+        else if (models.Any())
+        {
+            selectedModelName = models.First().Name;
+        }
+    }
+
+    private void OnSystemPromptChanged(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        if (int.TryParse(value, out int id))
+        {
+            selectedSystemPromptId = id;
+            var sp = systemPrompts.FirstOrDefault(p => p.Id == id);
+            if (sp != null)
+            {
+                systemPromptText = sp.Text ?? "";
+            }
+        }
+        else
+        {
+            selectedSystemPromptId = null;
+            systemPromptText = "";
+        }
+    }
+
+    private async Task CreateSession()
+    {
+        int thinkLevelValue = selectedThinkLevel.ToLower() switch
+        {
+            "none" => 0,
+            "low" => 1,
+            "medium" => 2,
+            "high" => 3,
+            "auto" => 4,
+            _ => 4
+        };
+
+        var request = new CreateSessionRequest
+        {
+            Model = selectedModelName,
+            SystemPromptId = selectedSystemPromptId,
+            ThinkLevel = thinkLevelValue,
+            Prompt = initialPrompt,
+            SystemPromptText = systemPromptText,
+            WorkingFolder = workingFolder
+        };
+
+        await ApiService.CreateSessionAsync(request);
+        
+        // Reset prompt, keep others
+        initialPrompt = "";
+        await LoadSessions();
+    }
+
+    private async Task LoadSessions()
+    {
+        var allSessions = await ApiService.GetSessionsAsync();
+        sessions = (showArchived 
+            ? allSessions 
+            : allSessions.Where(s => !s.Archived))
+            .OrderBy(s => s.Status)
+            .ToList();
+    }
+
+    private async Task DeleteSession(Guid id)
+    {
+        await ApiService.DeleteSessionAsync(id);
+        await LoadSessions();
+    }
+
+    private async Task ArchiveSession(Guid id)
+    {
+        await ApiService.ArchiveSessionAsync(id);
+        await LoadSessions();
+    }
+
+    private async Task UnarchiveSession(Guid id)
+    {
+        await ApiService.UnarchiveSessionAsync(id);
+        await LoadSessions();
+    }
+
+    private async Task SaveAll()
+    {
+        await ApiService.SaveSessionsAsync();
+    }
+
+    private async Task ClearAll()
+    {
+        await ApiService.ClearSessionsAsync();
+        await LoadSessions();
+    }
+
+    private void OpenSession(Guid id)
+    {
+        NavManager.NavigateTo($"/sessionedit/{id}");
+    }
+
+    private void OpenFolderSelector(string? path, Guid? sessionId = null)
+    {
+        folderSelectorPath = path ?? "";
+        folderSelectorSessionId = sessionId;
+        showFolderSelector = true;
+    }
+
+    private async Task OnFolderSelected(string path)
+    {
+        showFolderSelector = false;
+        if (folderSelectorSessionId.HasValue)
+        {
+            await ApiService.UpdateSessionWorkingFolderAsync(folderSelectorSessionId.Value, new UpdateSessionWorkingFolderRequest { WorkingFolder = path });
+            await LoadSessions();
+        }
+        else
+        {
+            workingFolder = path;
+        }
+    }
+
+    private async Task ChangePriority(SessionDto session, int delta)
+    {
+        var newPriority = session.Priority + delta;
+        await ApiService.UpdateSessionPriorityAsync(session.Id, new UpdateSessionPriorityRequest { Priority = newPriority });
+        await LoadSessions();
+    }
+
+    private string? GetSessionTooltip(SessionDto session)
+    {
+        return session.UserPrompts?.FirstOrDefault()?.UserPromptText;
+    }
+
+    private async Task EditWorkingFolder(SessionDto session)
+    {
+        var newPath = await JS.InvokeAsync<string>("prompt", "Enter new working folder path:", session.WorkingFolder);
+        if (!string.IsNullOrEmpty(newPath))
+        {
+            await ApiService.UpdateSessionWorkingFolderAsync(session.Id, new UpdateSessionWorkingFolderRequest { WorkingFolder = newPath });
+            await LoadSessions();
+        }
+    }
+}

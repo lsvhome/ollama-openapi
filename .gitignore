@@ -1,0 +1,11 @@
+bin
+obj
+.idea
+.git
+/script.sh
+/Exception_*.txt
+logs/*
+/sessions*.json
+*.user
+
+

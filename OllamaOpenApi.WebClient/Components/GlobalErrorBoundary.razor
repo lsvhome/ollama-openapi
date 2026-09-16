@@ -1,0 +1,26 @@
+@using Microsoft.Extensions.Logging
+@inherits ErrorBoundary
+
+@if (CurrentException is null)
+{
+    @ChildContent
+}
+else
+{
+    <div class="alert alert-danger m-3">
+        <h4 class="alert-heading">An unexpected error occurred</h4>
+        <p>@CurrentException.Message</p>
+        <button class="btn btn-primary" @onclick="Recover">Recover</button>
+    </div>
+}
+
+@code {
+    [Inject]
+    private ILogger<GlobalErrorBoundary> Logger { get; set; } = default!;
+
+    protected override async Task OnErrorAsync(Exception exception)
+    {
+        Logger.LogError(exception, "An unhandled exception occurred in the WebClient application");
+        await base.OnErrorAsync(exception);
+    }
+}

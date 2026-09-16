@@ -1,0 +1,121 @@
+@page "/system-prompts"
+@using OllamaOpenApi.Dto
+@using OllamaOpenApi.ServiceClient.Services
+@inject IOllamaApiService ApiService
+
+<h3>System Prompts</h3>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">@(isViewing ? "View System Prompt" : "Create/Update System Prompt")</h5>
+        <div class="row g-3">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="promptText" class="form-label">Prompt Text</label>
+                    <textarea id="promptText" class="form-control" rows="5" @bind="newPrompt.Text" placeholder="Enter system prompt text here..." readonly="@isViewing"></textarea>
+                </div>
+            </div>
+            <div class="col-12 text-end">
+                @if (!isViewing)
+                {
+                    <button class="btn btn-primary" @onclick="SavePrompt">Save</button>
+                }
+                else
+                {
+                    <button class="btn btn-secondary" @onclick="CancelView">Back to Editor</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Text</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prompt in prompts)
+        {
+            <tr>
+                <td>@prompt.Id</td>
+                <td>@prompt.Text</td>
+                <td>
+                    @if (prompt.IsReadOnly)
+                    {
+                        <button class="btn btn-sm btn-info me-2" @onclick="() => ViewPrompt(prompt)">View</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-sm btn-info me-2" @onclick="() => EditPrompt(prompt)">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeletePrompt(prompt.Id)">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<SystemPrompt> prompts = new();
+    private SystemPrompt newPrompt = new();
+    private bool isViewing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPrompts();
+    }
+
+    private async Task LoadPrompts()
+    {
+        prompts = await ApiService.GetSystemPromptsAsync();
+    }
+
+    private async Task SavePrompt()
+    {
+        if (string.IsNullOrWhiteSpace(newPrompt.Text))
+        {
+            return;
+        }
+
+        var request = new SystemPromptRequest { Text = newPrompt.Text };
+
+        if (newPrompt.Id == 0)
+        {
+            await ApiService.CreateOrUpdateSystemPromptAsync(request);
+        }
+        else
+        {
+            await ApiService.UpdateSystemPromptAsync(newPrompt.Id, request);
+        }
+        newPrompt = new SystemPrompt();
+        await LoadPrompts();
+    }
+
+    private void EditPrompt(SystemPrompt prompt)
+    {
+        isViewing = false;
+        newPrompt = new SystemPrompt { Id = prompt.Id, Text = prompt.Text };
+    }
+
+    private void ViewPrompt(SystemPrompt prompt)
+    {
+        isViewing = true;
+        newPrompt = new SystemPrompt { Id = prompt.Id, Text = prompt.Text };
+    }
+
+    private void CancelView()
+    {
+        isViewing = false;
+        newPrompt = new SystemPrompt();
+    }
+
+    private async Task DeletePrompt(int id)
+    {
+        await ApiService.DeleteSystemPromptAsync(id);
+        await LoadPrompts();
+    }
+}

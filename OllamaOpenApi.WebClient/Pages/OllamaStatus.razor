@@ -1,0 +1,73 @@
+@page "/ollama-status"
+@using OllamaOpenApi.Dto
+@using OllamaOpenApi.ServiceClient.Services
+@inject IOllamaApiService ApiService
+@inject IJSRuntime JS
+
+<PageTitle>Ollama Status</PageTitle>
+
+<h3>Ollama Running Models</h3>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="RefreshStatus">Refresh</button>
+</div>
+
+@if (statusModels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (statusModels.Count == 0)
+{
+    <p>No models currently running.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Model</th>
+                <th>Size</th>
+                <th>GPU</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var model in statusModels)
+            {
+                <tr>
+                    <td>@model.Name</td>
+                    <td>@model.Model</td>
+                    <td>@model.SizeHumanReadable</td>
+                    <td>@model.Gpu %</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<OllamaStatusDto>? statusModels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshStatus();
+    }
+
+    private async Task RefreshStatus()
+    {
+        try
+        {
+            statusModels = await ApiService.GetOllamaStatusAsync();
+        }
+        catch (Exception ex)
+        {
+            // In a real app, we'd show a proper error message
+            Console.WriteLine($"Exception happened: {ex.ToString()}");
+            statusModels = new();
+        }
+        finally
+        {
+            await JS.InvokeVoidAsync("playNotificationSound");
+        }
+    }
+}

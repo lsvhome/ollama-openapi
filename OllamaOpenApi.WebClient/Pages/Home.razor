@@ -1,0 +1,18 @@
+@page "/"
+@using System.Reflection
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<div class="mt-4">
+    <p><strong>Version:</strong> @AssemblyVersion</p>
+    <p><strong>Informational Version:</strong> @InformationalVersion</p>
+</div>
+
+@code {
+    private string AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
+    private string InformationalVersion => Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
+}
