@@ -91,7 +91,7 @@
                                     {
                                         <div class="mb-2">
                                             <div class="small">
-                                                <strong class="text-muted">@msg.Role:</strong> 
+                                                <strong class="text-muted">@msg.Role (@msg.Created.ToString("HH:mm:ss")):</strong> 
                                                 @if (msg.Role == "tool")
                                                 {
                                                     <span class="@(msg.Content.Contains("Error:") ? "text-danger" : "text-success")">
