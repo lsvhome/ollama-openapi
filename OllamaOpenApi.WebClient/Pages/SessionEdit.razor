@@ -91,7 +91,17 @@
                                     {
                                         <div class="mb-2">
                                             <div class="small">
-                                                <strong class="text-muted">@msg.Role:</strong> @msg.Content
+                                                <strong class="text-muted">@msg.Role:</strong> 
+                                                @if (msg.Role == "tool")
+                                                {
+                                                    <span class="@(msg.Content.Contains("Error:") ? "text-danger" : "text-success")">
+                                                        @(msg.Content.Contains("Error:") ? "fail" : "success")
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    @msg.Content
+                                                }
                                             </div>
                                         </div>
                                     }
