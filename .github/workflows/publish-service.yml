@@ -1,4 +1,4 @@
-name: Publish Service
+name: Publish
 
 on:
   workflow_dispatch:
@@ -38,11 +38,20 @@ jobs:
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/ollama-openapi-service
 
-      - name: Build and push Docker image
+      - name: Build and push Service Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: OllamaOpenApi.Service/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push WebClient Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: OllamaOpenApi.WebClient/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
