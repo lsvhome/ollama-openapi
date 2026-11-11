@@ -10,6 +10,8 @@ COPY ["OllamaOpenApi.Service/OllamaOpenApi.Service.csproj", "OllamaOpenApi.Servi
 COPY ["OllamaOpenApi.Dto/OllamaOpenApi.Dto.csproj", "OllamaOpenApi.Dto/"]
 COPY ["ollamasharp/src/OllamaSharp/OllamaSharp.csproj", "ollamasharp/src/OllamaSharp/"]
 COPY ["ollamasharp/src/SourceGenerators/OllamaSharp.SourceGenerators.csproj", "ollamasharp/src/SourceGenerators/"]
+COPY ["ollamasharp/Directory.Build.targets", "ollamasharp/"]
+COPY ["ollamasharp/Directory.Packages.props", "ollamasharp/"]
 
 RUN dotnet restore "OllamaOpenApi.Service/OllamaOpenApi.Service.csproj"
 
