@@ -1,0 +1,70 @@
+services:
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    deploy:
+      resources:
+        limits:
+          memory: 50G
+        reservations:
+          memory: 32G
+    restart: unless-stopped
+    stdin_open: true # Simulates docker run -i
+    tty: true        # Simulates docker run -t
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - ollama-volume:/root/.ollama
+    ports:
+      - 11434:11434
+    env_file:
+      - .env
+      - .secrets
+
+  ollama-openapi-service:
+    image: lsvhome/ollama-openapi-service
+    container_name: ollama-openapi-service
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    ports:
+      - ${OLLAMA_API_PORT}:${OLLAMA_API_PORT}
+    environment:
+      - ASPNETCORE_URLS=http://*:${OLLAMA_API_PORT}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - OLLAMA_HOST=http://ollama:11434
+      - no_proxy=localhost,127.0.0.1,ollama
+      - NO_PROXY=localhost,127.0.0.1,ollama
+      - IS_SANDBOX=1
+    env_file:
+      - .env
+      - .secrets
+
+
+  ollama-openapi-webclient:
+    image: lsvhome/ollama-openapi-webclient
+    container_name: ollama-openapi-webclient
+    restart: unless-stopped
+    depends_on:
+      - ollama-openapi-service
+    devices:
+      - /dev/snd:/dev/snd
+    volumes:
+      - ${XDG_RUNTIME_DIR}/pulse/native:/tmp/pulse-socket
+    ports:
+      - ${OLLAMA_WEBCLIENT_PORT}:80
+    environment:
+      - ASPNETCORE_URLS=http://*:${OLLAMA_WEBCLIENT_PORT}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - OLLAMA_API_HOST=http://ollama-openapi-service:${OLLAMA_API_PORT}
+      - no_proxy=localhost,127.0.0.1,ollama,ollama-openapi-service
+      - NO_PROXY=localhost,127.0.0.1,ollama,ollama-openapi-service
+      - PULSE_SERVER=unix:/tmp/pulse-socket
+    env_file:
+      - .env
+      - .secrets
+
+
+volumes:
+  ollama-volume: {}
