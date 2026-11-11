@@ -18,7 +18,7 @@ WORKDIR "/src/OllamaOpenApi.WebClient"
 RUN dotnet publish "OllamaOpenApi.WebClient.csproj" -c Release -o /app/publish
 
 # Use Nginx to serve the Blazor WebAssembly app
-FROM nginx:alpine
+FROM docker.io/library/nginx:alpine
 WORKDIR /usr/share/nginx/html
 COPY --from=build /app/publish/wwwroot .
 
