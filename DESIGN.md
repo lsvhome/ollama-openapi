@@ -319,7 +319,9 @@ To fully support the described user workflow, the following technical functional
 - **Temporal Sorting**: The background worker's loop must ensure that prompts within a session are retrieved and processed in strict ascending order of their `CreatedTimestamp`.
 
 ## 14. CI/CD Pipeline
-The project includes a GitHub Actions workflow for continuous delivery of the `OllamaOpenApi.Service` component.
+The project includes GitHub Actions workflows for continuous delivery of the system components.
+
+### 14.1 Service Component
 - **Workflow**: `.github/workflows/docker-push.yml`
 - **Trigger**: Triggered on push to `main` or `master` branches, or when a version tag (e.g., `v1.0.0`) is pushed.
 - **Action**:
@@ -327,3 +329,12 @@ The project includes a GitHub Actions workflow for continuous delivery of the `O
     2. Uses `docker/metadata-action` to handle tagging (e.g., `latest` for branches, and specific versions for tags).
     3. Pushes the resulting image to Docker Hub using credentials stored in GitHub Secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
 - **Image Name**: `${{ secrets.DOCKERHUB_USERNAME }}/ollama-openapi-service`
+
+### 14.2 Web Client Component
+- **Workflow**: `.github/workflows/docker-push-webclient.yml`
+- **Trigger**: Triggered on push to `main` or `master` branches, or when a version tag (e.g., `v1.0.0`) is pushed.
+- **Action**:
+    1. Builds the Docker image using the `OllamaOpenApi.WebClient/Dockerfile`.
+    2. Uses `docker/metadata-action` to handle tagging (e.g., `latest` for branches, and specific versions for tags).
+    3. Pushes the resulting image to Docker Hub using credentials stored in GitHub Secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
+- **Image Name**: `${{ secrets.DOCKERHUB_USERNAME }}/ollama-openapi-webclient`
