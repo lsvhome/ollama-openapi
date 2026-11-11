@@ -242,31 +242,31 @@ OllamaOpenApi/
 │   ├── Data/
 │   │   ├── Session.cs
 │   │   └── SessionDbContext.cs
-│   ├── Services/
-│   │   ├── IOllamaAgentService.cs
-│   │   ├── OllamaAgentService.cs
-│   │   ├── OllamaAgentService.MainLoop.cs
-│   │   ├── OllamaAgentService.Models.cs
-│   │   ├── OllamaAgentService.ModelsManagement.cs
-│   │   ├── OllamaAgentService.Sessions.cs
-│   │   ├── OllamaAgentService.Status.cs
-│   │   ├── OllamaAgentService.SystemPrompts.cs
-│   │   ├── OllamaAgentService.UserPrompts.cs
-│   │   ├── ExecutionList.cs
-│   │   └── SessionService.cs
-│   ├── Mappers/
-│   │   └── ModelMapper.cs
-│   ├── Models/
-│   │   ├── Session.cs
-│   │   ├── Query.cs
-│   │   ├── SystemPrompt.cs
-│   │   ├── ModelInfo.cs
-│   │   └── Enums.cs
-│   ├── Dtos/
-│   │   ├── SessionDto.cs
-│   │   ├── QueryDto.cs
-│   │   ├── ModelDto.cs
-│   │   └── Requests.cs
+│   │   ├── Services/
+│   │   │   ├── IOllamaAgentService.cs
+│   │   │   ├── OllamaAgentService.cs
+│   │   │   ├── OllamaAgentService.MainLoop.cs
+│   │   │   ├── OllamaAgentService.Models.cs
+│   │   │   ├── OllamaAgentService.ModelsManagement.cs
+│   │   │   ├── OllamaAgentService.Sessions.cs
+│   │   │   ├── OllamaAgentService.Status.cs
+│   │   │   ├── OllamaAgentService.SystemPrompts.cs
+│   │   │   ├── OllamaAgentService.UserPrompts.cs
+│   │   │   ├── ExecutionList.cs
+│   │   │   └── SessionService.cs
+│   │   ├── Mappers/
+│   │   │   └── ModelMapper.cs
+│   │   ├── Models/
+│   │   │   ├── Session.cs
+│   │   │   ├── Query.cs
+│   │   │   ├── SystemPrompt.cs
+│   │   │   ├── ModelInfo.cs
+│   │   │   └── Enums.cs
+│   │   └── Dtos/
+│   │       ├── SessionDto.cs
+│   │       ├── QueryDto.cs
+│   │       ├── ModelDto.cs
+│   │       └── Requests.cs
 │   └── Tools/
 │       └── ToolConsole.Tools.FileSystem.cs
 ├── OllamaOpenApi.Service.Tests/
@@ -290,7 +290,8 @@ OllamaOpenApi/
     │   └── NavMenu.razor
     └── Pages/
         ├── Chat.razor
-        ├── Sessions.razor\n        ├── Processing.razor
+        ├── Sessions.razor
+        ├── Processing.razor
         ├── SystemPrompts.razor
         └── OllamaStatus.razor
 ```
@@ -316,3 +317,13 @@ To fully support the described user workflow, the following technical functional
 
 ### 13.3 Processing Order
 - **Temporal Sorting**: The background worker's loop must ensure that prompts within a session are retrieved and processed in strict ascending order of their `CreatedTimestamp`.
+
+## 14. CI/CD Pipeline
+The project includes a GitHub Actions workflow for continuous delivery of the `OllamaOpenApi.Service` component.
+- **Workflow**: `.github/workflows/docker-push.yml`
+- **Trigger**: Triggered on push to `main` or `master` branches, or when a version tag (e.g., `v1.0.0`) is pushed.
+- **Action**:
+    1. Builds the Docker image using the `OllamaOpenApi.Service/Dockerfile`.
+    2. Uses `docker/metadata-action` to handle tagging (e.g., `latest` for branches, and specific versions for tags).
+    3. Pushes the resulting image to Docker Hub using credentials stored in GitHub Secrets (`DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`).
+- **Image Name**: `${{ secrets.DOCKERHUB_USERNAME }}/ollama-openapi-service`
