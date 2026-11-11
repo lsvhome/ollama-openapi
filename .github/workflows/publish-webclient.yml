@@ -1,4 +1,4 @@
-name: Docker Push WebClient
+name: Publish WebClient
 
 on:
   workflow_dispatch:

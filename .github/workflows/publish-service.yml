@@ -1,4 +1,4 @@
-name: Docker Push
+name: Publish Service
 
 on:
   workflow_dispatch:
