@@ -24,7 +24,7 @@ COPY --from=build /app/publish/wwwroot .
 
 # Copy custom nginx configuration if needed, but for simple apps default is fine.
 # However, for Blazor WASM, we need to handle routing.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY OllamaOpenApi.WebClient/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

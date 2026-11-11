@@ -7,5 +7,6 @@ obj
 logs/*
 /sessions*.json
 *.user
+/app-publish
 
 
