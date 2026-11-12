@@ -89,7 +89,13 @@
                                 {
                                     @foreach (var msg in query.Messages)
                                     {
-                                        <div class="mb-2">
+                                        <div class="mb-3">
+                                            @if (!string.IsNullOrEmpty(msg.Thinking))
+                                            {
+                                                <div class="small text-muted mb-1 p-1 border-start border-3 border-secondary bg-light" style="font-style: italic; font-size: 0.85rem;">
+                                                    <strong>Thinking:</strong> @msg.Thinking
+                                                </div>
+                                            }
                                             <div class="small">
                                                 <strong class="text-muted">@msg.Role (@msg.Created.ToString("HH:mm:ss")):</strong> 
                                                 @if (msg.Role == "tool")
@@ -103,6 +109,12 @@
                                                     @msg.Content
                                                 }
                                             </div>
+                                            @if (msg.ToolCalls != null && msg.ToolCalls.Any())
+                                            {
+                                                <div class="small text-muted mt-1 p-1 border-start border-3 border-info bg-light" style="font-size: 0.85rem;">
+                                                    <strong>Tools requested:</strong> @string.Join(", ", msg.ToolCalls)
+                                                </div>
+                                            }
                                         </div>
                                     }
                                 }
