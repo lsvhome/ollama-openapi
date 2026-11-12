@@ -24,6 +24,57 @@ FROM build AS publish
 RUN dotnet publish "OllamaOpenApi.Service.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+USER root
+
+
+# Base packages
+RUN apt-get update && \
+  apt-get install --no-install-recommends -q -y \
+  apt-transport-https \
+  tree \
+  ca-certificates \
+  gnupg \
+  wget \
+  curl \
+  unzip \
+  git \
+  less \
+  build-essential \
+  zstd \
+  markdown \
+  mc \
+  python3-pip \
+  golang-go \
+  dotnet-sdk-10.0 \
+  ocl-icd-libopencl1 \
+  libhwloc15 \
+  screen \
+  openssh-server
+
+
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+RUN dotnet tool install --global dotnet-skills
+RUN dotnet tool install --global dotnet-agents
+RUN dotnet tool install --global agents
+RUN dotnet tool restore
+
+RUN curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+
+RUN echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /etc/apt/sources.list.d/cloudflared.list
+
+
+RUN apt-get update && \
+  apt-get install --no-install-recommends -q -y \
+  cloudflared \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+COPY ./authorized_keys /root/.ssh/authorized_keys
+
+
+
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "OllamaOpenApi.Service.dll"]
