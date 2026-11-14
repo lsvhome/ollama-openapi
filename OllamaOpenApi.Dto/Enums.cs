@@ -15,4 +15,10 @@ namespace OllamaOpenApi.Dto
         Pausing = 1,
         InProgress = 2
     }
+
+    public enum ExternalSourceType
+    {
+        Default = 0,
+        Email = 1
+    }
 }

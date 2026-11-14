@@ -374,7 +374,13 @@ namespace OllamaOpenApi.Service.Services
                     q.Response = string.Concat(responseList);
                     q.Status = UserPromptStatus.Completed;
                     q.CompletedTimestamp = DateTime.UtcNow;
+
                     _logger.LogInformation("Completed query {QueryId} for session {SessionId}", q.Id, session.Id);
+
+                    if (_externalSource.CanProceess(session.ExternalSourceType))
+                    {
+                        await _externalSource.Process(session);
+                    }
                 }
                 catch (OperationCanceledException ex)
                 {

@@ -31,12 +31,14 @@ namespace OllamaOpenApi.Service.Services
         private OllamaSharp.IOllamaApiClient? _ollamaClient;
 
         private readonly List<ModelInfo> _models = new();
+        private readonly IExternalSource _externalSource;
         private ExecutionList _executionList = new()!;
         private CancellationTokenSource _activeSessionCts = new();
 
-        public OllamaAgentService(IConfiguration configuration, ILogger<OllamaAgentService> logger)
+        public OllamaAgentService(IConfiguration configuration, IExternalSource externalSource, ILogger<OllamaAgentService> logger)
         {
             _configuration = configuration;
+            _externalSource = externalSource;
             _logger = logger;
         }
 

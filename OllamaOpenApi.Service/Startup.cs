@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OllamaOpenApi.Dto;
 using OllamaOpenApi.Service.Data;
 using OllamaOpenApi.Service.Services;
 using OllamaOpenApi.Service.Middleware;
@@ -51,6 +52,7 @@ namespace OllamaOpenApi.Service
             services.AddSwaggerGen();
 
             services.AddSingleton<IMcpConfigService, McpConfigService>();
+            services.AddSingleton<IExternalSource, ExternalSourceEmail>();
 
             // Register the Agent Service as a Singleton and Hosted Service
             services.AddSingleton<OllamaAgentService>();

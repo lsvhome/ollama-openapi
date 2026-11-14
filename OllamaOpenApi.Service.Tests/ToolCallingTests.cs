@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
+using OllamaOpenApi.Dto;
 using OllamaOpenApi.Service.Services;
 using OllamaSharp.Models.Chat;
 using Xunit;
@@ -23,7 +24,8 @@ public class ToolCallingTests
             .Build();
 
         var logger = new NullLogger<OllamaAgentService>();
-        var service = new OllamaAgentService(configuration, logger);
+        IExternalSource s = new ExternalSourceEmail(new NullLogger<ExternalSourceEmail>());
+        var service = new OllamaAgentService(configuration, s, logger);
 
         // Act
         var tools = service.GetAvailableTools();

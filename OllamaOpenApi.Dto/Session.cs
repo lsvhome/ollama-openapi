@@ -7,6 +7,8 @@ namespace OllamaOpenApi.Dto
     public class Session
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+        public ExternalSourceType ExternalSourceType { get; set; } = ExternalSourceType.Default;
+        public string? ExternalSourceId { get; set; } = null;
         public string Title { get; set; } = string.Empty;
         public int Priority { get; set; } = 0;
         public bool Archived { get; set; } = false;

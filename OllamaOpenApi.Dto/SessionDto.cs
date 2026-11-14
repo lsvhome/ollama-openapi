@@ -7,6 +7,8 @@ namespace OllamaOpenApi.Dto
     public class SessionDto
     {
         public Guid Id { get; set; }
+        public ExternalSourceType ExternalSourceType { get; set; } = ExternalSourceType.Default;
+        public string? ExternalSourceId { get; set; } = null;
         public string Title { get; set; } = string.Empty;
         public string SystemPrompt { get; set; } = string.Empty;
         public string WorkingFolder { get; set; } = string.Empty;
@@ -18,6 +20,8 @@ namespace OllamaOpenApi.Dto
         public static SessionDto FromSession(Session session) => new()
         {
             Id = session.Id,
+            ExternalSourceId = session.ExternalSourceId,
+            ExternalSourceType = session.ExternalSourceType,
             Title = session.Title,
             Archived = session.Archived,
             Priority = session.Priority,
