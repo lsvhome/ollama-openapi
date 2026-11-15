@@ -46,11 +46,20 @@ The system consists of three primary components:
 Represents a single exchange between the user and the model.
 - `Id`: Unique identifier.
 - `UserPromptText`: The input text (query).
+- `Attachments`: A collection of attached files.
 - `Response`: A collection of generated output parts from Ollama.
 - `CreatedTimestamp`: When the query was created.
 - `SentTimestamp`: When the query was sent to Ollama.
 - `CompletedTimestamp`: When the response was received.
 - `Status`: `QueryStatus { Draft, Ready, InProgress, Completed, Error }`
+
+### 4.1.1 UserPromptAttachment
+Represents a file attached to a query.
+- `Id`: Unique identifier.
+- `FileName`: Original name of the file.
+- `FilePath`: Path to the file on disk.
+- `FileSize`: Size of the file in bytes.
+- `ContentType`: MIME type of the file.
 
 ### 4.2 Session
 Represents a conversation session.
@@ -135,6 +144,8 @@ Represents a conversation session.
 | `/api/user-prompts/{sessionId}/{promptId}/text` | `PUT` | Updates the text of a user prompt (must be in 'Draft' status). |
 | `/api/user-prompts/{sessionId}/{promptId}/status/{status}` | `PATCH` | Updates the status of a user prompt (e.g., 'Draft' to 'Ready'). |
 | `/api/user-prompts/{sessionId}/{promptId}` | `DELETE` | Deletes a user prompt (must be in 'Draft' status). |
+| `/api/user-prompts/{sessionId}/{promptId}/attachments` | `POST` | Uploads and attaches a file to a user prompt (must be in 'Draft' status). |
+| `/api/user-prompts/{sessionId}/{promptId}/attachments/{attachmentId}` | `DELETE` | Removes an attached file from a user prompt (must be in 'Draft' status). |
 
 ## 6. Hosted Service Logic
 
@@ -317,6 +328,7 @@ To fully support the described user workflow, the following technical functional
 
 ### 13.3 Processing Order
 - **Temporal Sorting**: The background worker's loop must ensure that prompts within a session are retrieved and processed in strict ascending order of their `CreatedTimestamp`.
+- **File Attachments**: If a prompt has attached files, the service reads the content of these files from disk and appends them to the user prompt text before sending the request to Ollama. Only text content is supported.
 
 ## 14. CI/CD Pipeline
 The project includes GitHub Actions workflows for continuous delivery of the system components.

@@ -338,6 +338,32 @@ namespace OllamaOpenApi.Service.Services
                     ChatRole senderRole = ChatRole.User;
                     string senderText = q.UserPromptText;
 
+                    if (q.Attachments.Any())
+                    {
+                        var attachmentsContent = new System.Text.StringBuilder();
+                        attachmentsContent.AppendLine("Attached files:");
+                        foreach (var attachment in q.Attachments)
+                        {
+                            try
+                            {
+                                if (File.Exists(attachment.FilePath))
+                                {
+                                    var content = await File.ReadAllTextAsync(attachment.FilePath);
+                                    attachmentsContent.AppendLine($"--- File: {attachment.FileName} ---\n{content}\n");
+                                }
+                                else
+                                {
+                                    attachmentsContent.AppendLine($"--- File: {attachment.FileName} (File not found) ---\n");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                attachmentsContent.AppendLine($"--- File: {attachment.FileName} (Error reading file: {ex.Message}) ---\n");
+                            }
+                        }
+                        senderText = $"{senderText}\n\n{attachmentsContent}";
+                    }
+
                     if (q.Status == UserPromptStatus.InProgress)
                     {
                         // message already sent, let's find latest message in queue which we consider as not sent in order to continue dialog

@@ -1,0 +1,77 @@
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[21:28:55 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[21:28:56 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[21:28:56 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[21:28:56 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[21:28:56 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[21:28:56 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[21:28:56 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[21:30:56 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[21:31:46 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[21:31:46 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/list
+Body: [Empty]
+[21:31:46 ERR] [OllamaOpenApi.Service.Middleware.ExceptionHandlingMiddleware] An unhandled exception occurred while processing request GET /api/models/list
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at OllamaOpenApi.Dto.ModelDtoDetails.FromDetails(ModelDetails details) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Dto/ModelDto.cs:line 48
+   at OllamaOpenApi.Dto.ModelDto.FromModel(ModelInfo model) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Dto/ModelDto.cs:line 27
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at OllamaOpenApi.Service.Controllers.ModelsController.GetModels() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Controllers/ModelsController.cs:line 25
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware.InvokeAsync(HttpContext context) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Middleware/HttpLoggingMiddleware.cs:line 44
+   at OllamaOpenApi.Service.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Middleware/ExceptionHandlingMiddleware.cs:line 28
+[21:32:00 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/list
+Body: [Empty]
+[21:32:15 ERR] [OllamaOpenApi.Service.Middleware.ExceptionHandlingMiddleware] An unhandled exception occurred while processing request GET /api/models/list
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at OllamaOpenApi.Dto.ModelDtoDetails.FromDetails(ModelDetails details) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Dto/ModelDto.cs:line 48
+   at OllamaOpenApi.Dto.ModelDto.FromModel(ModelInfo model) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Dto/ModelDto.cs:line 27
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at OllamaOpenApi.Service.Controllers.ModelsController.GetModels() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Controllers/ModelsController.cs:line 25
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Logged|12_1(ControllerActionInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware.InvokeAsync(HttpContext context) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Middleware/HttpLoggingMiddleware.cs:line 44
+   at OllamaOpenApi.Service.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Middleware/ExceptionHandlingMiddleware.cs:line 28
+[21:32:23 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/list
+Body: [Empty]
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[21:34:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[21:34:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[21:34:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[21:34:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[21:34:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[21:34:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[21:34:40 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[21:34:51 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[21:34:51 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/list
+Body: [Empty]
+[21:34:56 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 200
+Body: [Empty]

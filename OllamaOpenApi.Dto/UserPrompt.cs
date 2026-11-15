@@ -11,6 +11,7 @@ namespace OllamaOpenApi.Dto
         public string UserPromptText { get; set; } = string.Empty;
         public List<Message> Messages { get; set; } = new List<Message>();
         public List<Message> Thoughts { get; set; } = new List<Message>();
+        public List<UserPromptAttachment> Attachments { get; set; } = new List<UserPromptAttachment>();
         public string Response { get; set; } = string.Empty;
         public DateTime CreatedTimestamp { get; set; } = DateTime.UtcNow;
         public DateTime? SentTimestamp { get; set; }

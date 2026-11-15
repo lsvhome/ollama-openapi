@@ -45,6 +45,8 @@ namespace OllamaOpenApi.Service.Services
         Task<bool> UpdateUserPromptTextAsync(Guid sessionId, Guid promptId, string text);
         Task<bool> SetUserPromptStatusAsync(Guid sessionId, Guid promptId, UserPromptStatus status);
         Task<bool> DeleteUserPromptAsync(Guid sessionId, Guid promptId);
+        Task<UserPromptAttachment?> UploadAndAttachFileAsync(Guid sessionId, Guid promptId, string fileName, Stream fileStream, string contentType);
+        Task<bool> RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId);
 
         // System Prompt Management
         Task<List<SystemPrompt>> GetSystemPromptsAsync();

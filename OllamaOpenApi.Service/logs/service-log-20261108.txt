@@ -1,0 +1,275 @@
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:07:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:07:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:07:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:07:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:07:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:07:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:07:48 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:07:49 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[19:07:49 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /
+Body: [Empty]
+[19:07:49 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 404
+Body: [Empty]
+[19:09:48 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:15:36 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:15:37 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:15:37 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:15:37 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:15:37 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:15:37 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:15:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:15:37 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[19:15:37 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /
+Body: [Empty]
+[19:15:37 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 404
+Body: [Empty]
+[19:17:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:19:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:21:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:23:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:25:37 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:27:28 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:27:28 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:29:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:29:31 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:31:47 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:31:48 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:31:48 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:33:48 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[19:35:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[19:35:45 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[19:35:45 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[19:35:45 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[19:35:45 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[19:35:45 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[19:35:45 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[19:37:45 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[21:35:00 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[21:35:00 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[22:53:44 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[22:53:44 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[22:55:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:55:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:55:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:55:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:55:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:55:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:55:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:55:27 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:57:26 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:57:27 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[22:57:57 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:57:57 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:57:58 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:57:58 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:57:58 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:57:58 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:57:58 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:57:58 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[22:59:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:59:04 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:59:04 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[22:59:27 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[22:59:27 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:01:29 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[23:01:30 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.ApplicationException: Environment variable OLLAMA_MODEL not configured
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 109
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 36
+[23:02:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:02:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[23:02:40 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[23:02:40 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:13:13 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:13:14 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models:
+[23:13:14 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 17 models: ["all-minilm:22m","gemma4-dev:latest","gemma4-dev2:latest","gemma4-dev3:latest","gemma4-medium:latest","gemma4-small:latest","gemma4:12b","gemma4:26b","gemma4:31b","gemma4:e2b","gemma4:latest","llama3.2:1b","qwen3.6:27b","qwen3.6:latest","qwen3.8-dev:latest","qwen3.8:27b","qwen3.8:latest"]
+[23:13:14 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[23:13:14 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[23:13:14 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Model gemma4-dev:latest loaded successfully.
+[23:13:14 DBG] [OllamaOpenApi.Service.Services.OllamaAgentService] Execution list is paused.
+[23:13:15 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[23:13:15 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /
+Body: [Empty]
+[23:13:15 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 404
+Body: [Empty]
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:48:39 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 1 models:
+[23:48:39 ERR] [OllamaOpenApi.Service.Services.OllamaAgentService] Failed to connect to Ollama instance at http://localhost:11434
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at OllamaOpenApi.Service.Services.OllamaAgentService.<>c.<InitModels>b__22_0(ModelInfo m) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 156
+   at System.Linq.Enumerable.EnumerableSorter`2.ComputeKeys(TElement[] elements, Int32 count)
+   at System.Linq.Enumerable.OrderedIterator`2.MoveNext()
+   at OllamaOpenApi.Service.Services.OllamaAgentService.InitModels() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 156
+   at OllamaOpenApi.Service.Services.OllamaAgentService.LoadDefaultModelAsync() in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 103
+   at OllamaOpenApi.Service.Services.OllamaAgentService.ExecuteAsync(CancellationToken stoppingToken) in /home/ubuntu/git/ollama-intel-arc/workspace/ollama-openapi/OllamaOpenApi.Service/Services/OllamaAgentService.MainLoop.cs:line 33
+[23:48:40 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[23:48:40 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /
+Body: [Empty]
+[23:48:40 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 404
+Body: [Empty]
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:49:31 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:50:03 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:54:22 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:54:38 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 1 models:
+[23:54:38 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 1 models: ["gemma4-dev:latest"]
+[23:54:38 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[23:54:38 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[23:55:01 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[23:55:01 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /
+Body: [Empty]
+[23:55:01 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 404
+Body: [Empty]
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync begin
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync begin
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Successfully loaded sessions from sessions.json
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.LoadSessionsFromDiskAsync end
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.StartAsync end
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] OllamaAgentService.ExecuteAsync begin
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 1 models:
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Connected to Ollama and loaded 1 models: ["gemma4-dev:latest"]
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Using configured default model: gemma4-dev:latest
+[23:55:52 INF] [OllamaOpenApi.Service.Services.OllamaAgentService] Loading default model gemma4-dev:latest...
+[23:56:06 WRN] [Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware] Failed to determine the https port for redirect.
+[23:56:06 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/list
+Body: [Empty]
+[23:56:18 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 200
+Body: [Empty]
+[23:56:36 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Incoming Request: GET /api/models/default
+Body: [Empty]
+[23:56:36 DBG] [OllamaOpenApi.Service.Middleware.HttpLoggingMiddleware] Outgoing Response: 200
+Body: [Empty]

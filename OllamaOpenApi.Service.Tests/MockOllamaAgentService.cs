@@ -138,6 +138,8 @@ namespace OllamaOpenApi.Service.Tests
         public Task<bool> UpdateUserPromptTextAsync(Guid sessionId, Guid promptId, string text) => Task.FromResult(true);
         public Task<bool> SetUserPromptStatusAsync(Guid sessionId, Guid promptId, UserPromptStatus status) => Task.FromResult(true);
         public Task<bool> DeleteUserPromptAsync(Guid sessionId, Guid promptId) => Task.FromResult(true);
+        public Task<UserPromptAttachment?> UploadAndAttachFileAsync(Guid sessionId, Guid promptId, string fileName, Stream fileStream, string contentType) => Task.FromResult<UserPromptAttachment?>(null);
+        public Task<bool> RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId) => Task.FromResult(true);
 
         public Task<List<SystemPrompt>> GetSystemPromptsAsync() => Task.FromResult(_systemPrompts);
         public Task AddSystemPromptAsync(SystemPrompt prompt)

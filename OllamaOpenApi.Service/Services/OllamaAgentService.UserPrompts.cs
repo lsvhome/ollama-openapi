@@ -89,5 +89,44 @@ namespace OllamaOpenApi.Service.Services
             }
             return Task.FromResult(false);
         }
+
+        public Task<bool> AddAttachmentAsync(Guid sessionId, Guid promptId, UserPromptAttachment attachment)
+        {
+            if (_executionList.TryGetValue(sessionId, out var session))
+            {
+                var prompt = session.UserPrompts.FirstOrDefault(p => p.Id == promptId);
+                if (prompt != null && prompt.Status == UserPromptStatus.Draft)
+                {
+                    prompt.Attachments.Add(attachment);
+                    return Task.FromResult(true);
+                }
+            }
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId)
+        {
+            if (_executionList.TryGetValue(sessionId, out var session))
+            {
+                var prompt = session.UserPrompts.FirstOrDefault(p => p.Id == promptId);
+                if (prompt != null && prompt.Status == UserPromptStatus.Draft)
+                {
+                    var attachment = prompt.Attachments.FirstOrDefault(a => a.Id == attachmentId);
+                    if (attachment != null)
+                    {
+                        prompt.Attachments.Remove(attachment);
+                        return Task.FromResult(true);
+                    }
+                }
+            }
+            return Task.FromResult(false);
+        }
+
+        public async Task<UserPromptAttachment?> UploadAndAttachFileAsync(Guid sessionId, Guid promptId, string fileName, Stream fileStream, string contentType)
+        {
+            var attachment = await SaveUploadedFileAsync(fileName, fileStream, contentType);
+            var success = await AddAttachmentAsync(sessionId, promptId, attachment);
+            return success ? attachment : null;
+        }
     }
 }

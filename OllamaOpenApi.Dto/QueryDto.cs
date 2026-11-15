@@ -31,6 +31,7 @@ namespace OllamaOpenApi.Dto
         public string UserPromptText { get; set; } = string.Empty;
         public string Response { get; set; } = string.Empty;
         public List<MessageDto> Messages { get; set; } = new();
+        public List<UserPromptAttachmentDto> Attachments { get; set; } = new();
         public DateTime CreatedTimestamp { get; set; }
         public DateTime? SentTimestamp { get; set; }
         public DateTime? CompletedTimestamp { get; set; }
@@ -42,6 +43,7 @@ namespace OllamaOpenApi.Dto
             UserPromptText = query.UserPromptText,
             Response = query.Response,
             Messages = query.Messages.Select(MessageDto.FromMessage).ToList(),
+            Attachments = query.Attachments.Select(UserPromptAttachmentDto.FromAttachment).ToList(),
             CreatedTimestamp = query.CreatedTimestamp,
             SentTimestamp = query.SentTimestamp,
             CompletedTimestamp = query.CompletedTimestamp,
