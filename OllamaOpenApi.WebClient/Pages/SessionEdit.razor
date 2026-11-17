@@ -31,7 +31,7 @@
                         </div>
                     }
                 </div>
-                <p class="mb-0"><strong>Working Folder:</strong> @session?.WorkingFolder</p>
+                <p class="mb-0"><strong class="text-dark">Working Folder:</strong> @session?.WorkingFolder</p>
             </div>
             <div class="col-md-6 border-start">
                 <h5 class="mb-3">Processing Status</h5>
@@ -61,16 +61,40 @@
                             <div class="bg-primary text-white p-2 rounded d-inline-block" style="width: 80%;">
                                 @if (query.Status == UserPromptStatus.Draft)
                                 {
-                                    <textarea class="form-control form-control-sm bg-transparent text-white border-0 p-0" 
-                                              @bind="query.UserPromptText" 
-                                              @bind:event="oninput"
-                                              @onblur="() => UpdatePromptText(query)" 
-                                              style="outline: none; box-shadow: none; resize: none; min-width: 200px;" 
-                                              rows="1"></textarea>
+                                    <div class="d-flex align-items-start">
+                                        <textarea class="form-control form-control-sm bg-transparent text-white border-0 p-0 flex-grow-1" 
+                                                  @bind="query.UserPromptText" 
+                                                  @bind:event="oninput"
+                                                  @onblur="() => UpdatePromptText(query)" 
+                                                  style="outline: none; box-shadow: none; resize: none; min-width: 200px;" 
+                                                  rows="1"></textarea>
+                                        <div class="ms-2 d-flex flex-column align-items-end">
+                                            <InputFile OnChange="@(e => OnFileSelected(e, query))" class="d-none" id="@($"file-upload-{query.Id}")" />
+                                            <label for="@($"file-upload-{query.Id}")" class="btn btn-sm btn-outline-light py-0 px-1" style="cursor: pointer; font-size: 0.75rem;">
+                                                <i class="bi bi-paperclip"></i>
+                                            </label>
+                                        </div>
+                                    </div>
                                 }
                                 else
                                 {
                                     @query.UserPromptText
+                                }
+                                @if (query.Attachments != null && query.Attachments.Any())
+                                {
+                                    <div class="mt-1 d-flex flex-wrap gap-1" style="max-width: 80%;">
+                                        @foreach (var att in query.Attachments)
+                                        {
+                                            <span class="badge bg-light text-dark border d-flex align-items-center" style="font-size: 0.7rem;">
+                                                <i class="bi bi-file-earmark-text me-1"></i>
+                                                @att.FileName
+                                                @if (query.Status == UserPromptStatus.Draft)
+                                                {
+                                                    <button class="btn-close ms-1" style="width: 0.5em; height: 0.5em; font-size: 0.5rem;" @onclick="() => RemoveAttachment(query, att.Id)"></button>
+                                                }
+                                            </span>
+                                        }
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -93,7 +117,7 @@
                                             @if (!string.IsNullOrEmpty(msg.Thinking))
                                             {
                                                 <div class="small text-muted mb-1 p-1 border-start border-3 border-secondary bg-light" style="font-style: italic; font-size: 0.85rem;">
-                                                    <strong>Thinking:</strong> @msg.Thinking
+                                                    <strong class="text-dark">Thinking:</strong> @msg.Thinking
                                                 </div>
                                             }
                                             <div class="small">
@@ -112,7 +136,7 @@
                                             @if (msg.ToolCalls != null && msg.ToolCalls.Any())
                                             {
                                                 <div class="small text-muted mt-1 p-1 border-start border-3 border-info bg-light" style="font-size: 0.85rem;">
-                                                    <strong>Tools requested:</strong> @string.Join(", ", msg.ToolCalls)
+                                                    <strong class="text-dark">Tools requested:</strong> @string.Join(", ", msg.ToolCalls)
                                                 </div>
                                             }
                                         </div>
@@ -161,6 +185,39 @@
         var activeSession = await ApiService.GetActiveExecutionSessionAsync();
         isSessionActive = activeSession?.Id == SessionId;
         executionStatus = await ApiService.GetExecutionListStatusAsync();
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e, UserPromptDto query)
+    {
+        if (query.Status != UserPromptStatus.Draft) return;
+
+        var file = e.File;
+        if (file == null) return;
+
+        try
+        {
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).ReadAsync(buffer);
+
+            var attachment = await ApiService.UploadAttachmentAsync(SessionId, query.Id, file.Name, buffer, file.ContentType);
+            if (attachment == null)
+            {
+                await JS.InvokeVoidAsync("alert", "Failed to upload attachment.");
+            }
+            await LoadSession();
+        }
+        catch (Exception ex)
+        {
+            await JS.InvokeVoidAsync("alert", $"Error uploading file: {ex.Message}");
+        }
+    }
+
+    private async Task RemoveAttachment(UserPromptDto query, Guid attachmentId)
+    {
+        if (query.Status != UserPromptStatus.Draft) return;
+
+        await ApiService.RemoveAttachmentAsync(SessionId, query.Id, attachmentId);
+        await LoadSession();
     }
 
     private async Task TogglePromptStatus(UserPromptDto query)
