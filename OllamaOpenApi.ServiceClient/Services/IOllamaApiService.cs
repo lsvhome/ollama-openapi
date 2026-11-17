@@ -53,4 +53,6 @@ public interface IOllamaApiService
     Task UpdateUserPromptTextAsync(Guid sessionId, Guid promptId, UpdateUserPromptTextRequest request);
     Task SetUserPromptReadyAsync(Guid sessionId, Guid promptId);
     Task SetUserPromptUnreadyAsync(Guid sessionId, Guid promptId);
+    Task<UserPromptAttachmentDto?> UploadAttachmentAsync(Guid sessionId, Guid promptId, string fileName, byte[] content, string contentType);
+    Task RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId);
 }

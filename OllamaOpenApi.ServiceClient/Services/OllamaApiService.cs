@@ -307,4 +307,30 @@ public class OllamaApiService : IOllamaApiService
         await _httpClient.PatchAsync($"api/user-prompts/{sessionId}/{promptId}/status/Draft", null);
         _logger.LogDebug("SetUserPromptUnreadyAsync for prompt {PromptId} completed", promptId);
     }
+
+    public async Task<UserPromptAttachmentDto?> UploadAttachmentAsync(Guid sessionId, Guid promptId, string fileName, byte[] content, string contentType)
+    {
+        _logger.LogDebug("Calling UploadAttachmentAsync for session: {SessionId}, prompt: {PromptId}, file: {FileName}", sessionId, promptId, fileName);
+        using var multipartContent = new MultipartFormDataContent();
+        var fileContent = new ByteArrayContent(content);
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
+        multipartContent.Add(fileContent, "file", fileName);
+
+        var response = await _httpClient.PostAsync($"api/user-prompts/{sessionId}/{promptId}/attachments", multipartContent);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<UserPromptAttachmentDto>();
+            _logger.LogDebug("UploadAttachmentAsync for prompt {PromptId} returned attachment with id: {Id}", promptId, result?.Id);
+            return result;
+        }
+        _logger.LogError("UploadAttachmentAsync for prompt {PromptId} failed with status: {StatusCode}", promptId, response.StatusCode);
+        return null;
+    }
+
+    public async Task RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId)
+    {
+        _logger.LogDebug("Calling RemoveAttachmentAsync for session: {SessionId}, prompt: {PromptId}, attachment: {AttachmentId}", sessionId, promptId, attachmentId);
+        await _httpClient.DeleteAsync($"api/user-prompts/{sessionId}/{promptId}/attachments/{attachmentId}");
+        _logger.LogDebug("RemoveAttachmentAsync for attachment {AttachmentId} completed", attachmentId);
+    }
 }
