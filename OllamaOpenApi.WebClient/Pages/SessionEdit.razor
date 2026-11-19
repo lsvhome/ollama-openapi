@@ -16,7 +16,7 @@
 </h3>
 
 <div class="card mb-4">
-    <div class="card-header">Session Details & Processing Status</div>
+    <div class="card-header">Session Details & Processing Status</div>>
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
@@ -28,22 +28,22 @@
                     {
                         <div class="mt-1 p-2 bg-light border rounded small" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;">
                             @session?.SystemPrompt
-                        </div>
+                        </div>>
                     }
-                </div>
-                <p class="mb-0"><strong>Working Folder:</strong> @session?.WorkingFolder</p>
-            </div>
+                </div>>
+                <p class="mb-0"><strong class="text-dark">Working Folder:</strong> @session?.WorkingFolder</p>
+            </div>>
             <div class="col-md-6 border-start">
                 <h5 class="mb-3">Processing Status</h5>
                 <div class="mb-3">
                     <span class="badge @(executionStatus == "InProgress" ? "bg-success" : (executionStatus == "Pausing" ? "bg-warning" : "bg-secondary"))">
                         @executionStatus
                     </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                </div>>
+            </div>>
+        </div>>
+    </div>>
+</div>>
 
 <div class="row">
     <div class="col-12">
@@ -73,13 +73,13 @@
                                             <label for="@($"file-upload-{query.Id}")" class="btn btn-sm btn-outline-light py-0 px-1" style="cursor: pointer; font-size: 0.75rem;">
                                                 <i class="bi bi-paperclip"></i>
                                             </label>
-                                        </div>
+                                        </div>>
                                     }
                                     else
                                     {
                                         @query.UserPromptText
                                     }
-                                </div>
+                                </div>>
                                 @if (query.Attachments != null && query.Attachments.Any())
                                 {
                                     <div class="mt-1 d-flex flex-wrap gap-1" style="max-width: 80%;">
@@ -94,10 +94,10 @@
                                                 }
                                             </span>
                                         }
-                                    </div>
+                                    </div>>
                                 }
-                            </div>
-                        </div>
+                            </div>>
+                        </div>>
                         <div class="text-start mt-1">
                             <div class="bg-white border p-2 rounded d-inline-block" style="max-width: 80%;">
                                 <div class="mb-1">
@@ -108,7 +108,7 @@
                                             @(query.Status == UserPromptStatus.Draft ? "Make Ready" : "Make Draft")
                                         </button>
                                     }
-                                </div>
+                                </div>>
                                 @if (query.Messages != null && query.Messages.Any())
                                 {
                                     @foreach (var msg in query.Messages)
@@ -117,8 +117,8 @@
                                             @if (!string.IsNullOrEmpty(msg.Thinking))
                                             {
                                                 <div class="small text-muted mb-1 p-1 border-start border-3 border-secondary bg-light" style="font-style: italic; font-size: 0.85rem;">
-                                                    <strong>Thinking:</strong> @msg.Thinking
-                                                </div>
+                                                    <strong class="text-dark">Thinking:</strong> @msg.Thinking
+                                                </div>>
                                             }
                                             <div class="small">
                                                 <strong class="text-muted">@msg.Role (@msg.Created.ToString("HH:mm:ss")):</strong> 
@@ -132,33 +132,33 @@
                                                 {
                                                     @msg.Content
                                                 }
-                                            </div>
+                                            </div>>
                                             @if (msg.ToolCalls != null && msg.ToolCalls.Any())
                                             {
                                                 <div class="small text-muted mt-1 p-1 border-start border-3 border-info bg-light" style="font-size: 0.85rem;">
-                                                    <strong>Tools requested:</strong> @string.Join(", ", msg.ToolCalls)
-                                                </div>
+                                                    <strong class="text-dark">Tools requested:</strong> @string.Join(", ", msg.ToolCalls)
+                                                </div>>
                                             }
-                                        </div>
+                                        </div>>
                                     }
                                 }
                                 else
                                 {
                                     @query.Response
                                 }
-                            </div>
-                        </div>
-                    </div>
+                            </div>>
+                        </div>>
+                    </div>>
                 }
             }
-        </div>
+        </div>>
 
         <div class="input-group mb-3">
             <input type="text" class="form-control" @bind="userMessage" @bind:event="oninput" @onkeypress="HandleKeyPress" placeholder="Type a message..." />
             <button class="btn btn-primary" @onclick="SendMessage">Send</button>
-        </div>
-    </div>
-</div>
+        </div>>
+    </div>>
+</div>>
 
 @code {
     [Parameter] public Guid SessionId { get; set; }
