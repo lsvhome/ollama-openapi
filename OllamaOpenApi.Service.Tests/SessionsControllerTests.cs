@@ -20,6 +20,20 @@ namespace OllamaOpenApi.Service.Tests
             return id;
         }
 
+        private async Task<HttpResponseMessage> PostCreateSessionAsync(CreateSessionRequest request)
+        {
+            var content = new MultipartFormDataContent();
+            if (request.Model != null) content.Add(new StringContent(request.Model), "Model");
+            if (request.SystemPromptId.HasValue) content.Add(new StringContent(request.SystemPromptId.Value.ToString()), "SystemPromptId");
+            content.Add(new StringContent(request.ThinkLevel.ToString()), "ThinkLevel");
+            if (request.Prompt != null) content.Add(new StringContent(request.Prompt), "Prompt");
+            if (request.Title != null) content.Add(new StringContent(request.Title), "Title");
+            if (request.SystemPromptText != null) content.Add(new StringContent(request.SystemPromptText), "SystemPromptText");
+            if (request.WorkingFolder != null) content.Add(new StringContent(request.WorkingFolder), "WorkingFolder");
+
+            return await Client.PostAsync("/api/sessions/create", content);
+        }
+
         [Fact]
         public async Task GetSessions_ReturnsOk_AndEmptyList()
         {
@@ -37,7 +51,7 @@ namespace OllamaOpenApi.Service.Tests
         public async Task CreateSession_ValidRequest_ReturnsOkAndSessionId()
         {
             var request = new CreateSessionRequest("llama3", 1, 1, "You are helpful.", null, null, null);
-            var response = await Client.PostAsJsonAsync("/api/sessions/create", request);
+            var response = await PostCreateSessionAsync(request);
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<CreateSessionResponse>();
@@ -49,7 +63,7 @@ namespace OllamaOpenApi.Service.Tests
         public async Task CreateSession_WithSystemPromptText_ReturnsOkAndSessionId()
         {
             var request = new CreateSessionRequest("llama3", null, 1, "You are helpful.", null, "Custom System Prompt", null);
-            var response = await Client.PostAsJsonAsync("/api/sessions/create", request);
+            var response = await PostCreateSessionAsync(request);
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<CreateSessionResponse>();
@@ -179,7 +193,7 @@ namespace OllamaOpenApi.Service.Tests
         {
             var workingFolder = "/tmp/test-folder";
             var request = new CreateSessionRequest("llama3", 1, 1, "You are helpful.", null, null, workingFolder);
-            var response = await Client.PostAsJsonAsync("/api/sessions/create", request);
+            var response = await PostCreateSessionAsync(request);
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadFromJsonAsync<CreateSessionResponse>();
