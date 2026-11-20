@@ -51,12 +51,20 @@ public partial class ToolConsole
     }
 
     /// <summary>
-    /// Read file contents from a given path.
+    /// Read text file contents from a given path.
     /// </summary>
     /// <param name="path">The path of the file to read.</param>
     /// <returns>The contents of the file.</returns>
     [OllamaTool]
     public static string FileRead(string path) => System.IO.File.ReadAllText(path);
+
+    /// <summary>
+    /// Read binary or image file contents as base64 from a given path.
+    /// </summary>
+    /// <param name="path">The path of the file to read.</param>
+    /// <returns>The contents of the file in base64 format.</returns>
+    [OllamaTool]
+    public static string FileReadBase64(string path) => Convert.ToBase64String(System.IO.File.ReadAllBytes(path));
 
     /// <summary>
     /// Check if a file exists at a given path.
