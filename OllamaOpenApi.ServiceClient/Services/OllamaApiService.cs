@@ -134,10 +134,31 @@ public class OllamaApiService : IOllamaApiService
         return result ?? new();
     }
 
-    public async Task CreateSessionAsync(CreateSessionRequest request)
+    public async Task CreateSessionAsync(CreateSessionRequest request, System.Collections.Generic.IEnumerable<FileContent>? files = null)
     {
         _logger.LogDebug("Calling CreateSessionAsync with request: {Request}", request);
-        await _httpClient.PostAsJsonAsync("api/sessions/create", request);
+        using var content = new MultipartFormDataContent();
+        
+        // Add request properties as form fields
+        content.Add(new StringContent(request.Model ?? ""), "Model");
+        content.Add(new StringContent(request.SystemPromptId?.ToString() ?? ""), "SystemPromptId");
+        content.Add(new StringContent(request.ThinkLevel.ToString()), "ThinkLevel");
+        content.Add(new StringContent(request.Prompt ?? ""), "Prompt");
+        content.Add(new StringContent(request.Title ?? ""), "Title");
+        content.Add(new StringContent(request.SystemPromptText ?? ""), "SystemPromptText");
+        content.Add(new StringContent(request.WorkingFolder ?? ""), "WorkingFolder");
+
+        if (files != null)
+        {
+            foreach (var file in files)
+            {
+                var fileContent = new ByteArrayContent(file.Content);
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+                content.Add(fileContent, "files", file.FileName);
+            }
+        }
+
+        await _httpClient.PostAsync("api/sessions/create", content);
         _logger.LogDebug("CreateSessionAsync completed");
     }
 

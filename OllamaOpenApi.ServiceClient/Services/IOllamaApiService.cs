@@ -26,7 +26,7 @@ public interface IOllamaApiService
 
     // Sessions
     Task<List<SessionDto>> GetSessionsAsync();
-    Task CreateSessionAsync(CreateSessionRequest request);
+    Task CreateSessionAsync(CreateSessionRequest request, System.Collections.Generic.IEnumerable<FileContent>? files = null);
     Task<SessionDto?> GetSessionAsync(Guid id);
     Task DeleteSessionAsync(Guid id);
     Task ArchiveSessionAsync(Guid id);

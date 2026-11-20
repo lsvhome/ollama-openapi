@@ -39,12 +39,24 @@ namespace OllamaOpenApi.Service.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateSession([FromBody] CreateSessionRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateSession([FromForm] CreateSessionRequest request, IFormFileCollection files)
         {
             if (request == null)
                 return BadRequest(new { error = "Request body is required." });
 
-            var sessionId = await _agent.CreateSessionAsync(request.Model, request.SystemPromptId, request.ThinkLevel, request.Prompt, request.Title, request.SystemPromptText, request.WorkingFolder);
+            var attachments = new List<UserPromptAttachment>();
+            if (files != null)
+            {
+                foreach (var file in files)
+                {
+                    using var stream = file.OpenReadStream();
+                    var attachment = await _agent.SaveUploadedFileAsync(file.FileName, stream, file.ContentType);
+                    attachments.Add(attachment);
+                }
+            }
+
+            var sessionId = await _agent.CreateSessionAsync(request.Model, request.SystemPromptId, request.ThinkLevel, request.Prompt, request.Title, request.SystemPromptText, request.WorkingFolder, attachments);
             return Ok(new { sessionId });
         }
 

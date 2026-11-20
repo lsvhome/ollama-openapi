@@ -96,7 +96,7 @@ Represents a conversation session.
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
 | `/api/sessions/list` | `GET` | Lists all current sessions. |
-| `/api/sessions/create` | `POST` | Creates a new session with parameters: `model`, `systemPromptId`, `thinkLevel`, `prompt`, `title`, `systemPromptText`. |
+| `/api/sessions/create` | `POST` | Creates a new session with parameters: `model`, `systemPromptId`, `thinkLevel`, `prompt`, `title`, `systemPromptText`, and optional file attachments. |
 | `/api/sessions/{id}/title` | `PUT` | Updates the title of a session. |
 | `/api/sessions/{id}/export` | `GET` | Downloads a specific session as a file. |
 | `/api/sessions/{id}/import` | `POST` | Uploads a session file to restore a session. |

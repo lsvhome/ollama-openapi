@@ -23,7 +23,7 @@ namespace OllamaOpenApi.Service.Tests
         public Task ReloadModelAsync(string model) => Task.CompletedTask;
 
         public Task<List<Session>> ListSessionsAsync() => Task.FromResult(_sessions);
-        public Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder)
+        public Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder, List<UserPromptAttachment>? attachments = null)
         {
             var session = new Session
             {
@@ -35,6 +35,17 @@ namespace OllamaOpenApi.Service.Tests
             };
             _sessions.Add(session);
             return Task.FromResult(session.Id);
+        }
+
+        public Task<UserPromptAttachment> SaveUploadedFileAsync(string fileName, Stream fileStream, string contentType)
+        {
+            return Task.FromResult(new UserPromptAttachment
+            {
+                FileName = fileName,
+                ContentType = contentType,
+                FilePath = "mock/path",
+                FileSize = 0
+            });
         }
         public Task UpdateSessionSystemPromptAsync(Guid sessionId, string prompt) => Task.CompletedTask;
         public Task UpdateSessionTitleAsync(Guid sessionId, string title)

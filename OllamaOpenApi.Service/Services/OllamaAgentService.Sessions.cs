@@ -20,7 +20,7 @@ namespace OllamaOpenApi.Service.Services
             return Task.FromResult(session);
         }
 
-        public Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder)
+        public Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder, List<UserPromptAttachment>? attachments = null)
         {
             var sessionId = Guid.NewGuid();
             var session = new Session
@@ -49,7 +49,19 @@ namespace OllamaOpenApi.Service.Services
 
             if (!string.IsNullOrWhiteSpace(prompt))
             {
-                session.UserPrompts.Add(new UserPrompt { UserPromptText = prompt });
+                var userPrompt = new UserPrompt { UserPromptText = prompt };
+                if (attachments != null)
+                {
+                    userPrompt.Attachments.AddRange(attachments);
+                }
+                session.UserPrompts.Add(userPrompt);
+            }
+            else if (attachments != null && attachments.Any())
+            {
+                // Create an empty prompt just for the attachments if prompt is empty
+                var userPrompt = new UserPrompt { UserPromptText = string.Empty };
+                userPrompt.Attachments.AddRange(attachments);
+                session.UserPrompts.Add(userPrompt);
             }
 
             _executionList[session.Id] = session;

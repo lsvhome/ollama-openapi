@@ -72,6 +72,18 @@
                     <textarea class="form-control" rows="3" @bind="initialPrompt" placeholder="Initial Prompt"></textarea>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="form-label">Attachments</label>
+                    <InputFile class="form-control" OnChange="OnFilesChanged" multiple />
+                    <div class="mt-2">
+                        @foreach (var file in selectedFiles)
+                        {
+                            <span class="badge bg-secondary me-1">@file.Name <button type="button" class="btn-close btn-close-white" style="font-size: 0.5rem;" @onclick="() => RemoveFile(file)"></button></span>
+                        }
+                    </div>
+                </div>
+            </div>
             <div class="col-12 text-end">
                 <button class="btn btn-primary" @onclick="CreateSession">Create Session</button>
             </div>
@@ -158,6 +170,8 @@
     private string initialPrompt = "";
     private string workingFolder = "";
 
+    private List<IBrowserFile> selectedFiles = new();
+
     private bool showFolderSelector = false;
     private string folderSelectorPath = "";
     private Guid? folderSelectorSessionId = null;
@@ -205,6 +219,19 @@
         }
     }
 
+    private async Task OnFilesChanged(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            selectedFiles.Add(file);
+        }
+    }
+
+    private void RemoveFile(IBrowserFile file)
+    {
+        selectedFiles.Remove(file);
+    }
+
     private async Task CreateSession()
     {
         int thinkLevelValue = selectedThinkLevel.ToLower() switch
@@ -227,10 +254,25 @@
             WorkingFolder = workingFolder
         };
 
-        await ApiService.CreateSessionAsync(request);
+        var fileContents = new List<FileContent>();
+        foreach (var file in selectedFiles)
+        {
+            var buffer = new byte[file.Size];
+            using var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB limit
+            await stream.ReadAsync(buffer);
+            fileContents.Add(new FileContent
+            {
+                FileName = file.Name,
+                ContentType = file.ContentType ?? "application/octet-stream",
+                Content = buffer
+            });
+        }
+
+        await ApiService.CreateSessionAsync(request, fileContents);
         
-        // Reset prompt, keep others
+        // Reset prompt and files, keep others
         initialPrompt = "";
+        selectedFiles.Clear();
         await LoadSessions();
     }
 

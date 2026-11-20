@@ -17,7 +17,7 @@ namespace OllamaOpenApi.Service.Services
 
         // Session Management
         Task<List<Session>> ListSessionsAsync();
-        Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder);
+        Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder, List<UserPromptAttachment>? attachments = null);
         Task UpdateSessionSystemPromptAsync(Guid sessionId, string prompt);
         Task UpdateSessionTitleAsync(Guid sessionId, string title);
         Task UpdateSessionWorkingFolderAsync(Guid sessionId, string workingFolder);
@@ -46,6 +46,7 @@ namespace OllamaOpenApi.Service.Services
         Task<bool> SetUserPromptStatusAsync(Guid sessionId, Guid promptId, UserPromptStatus status);
         Task<bool> DeleteUserPromptAsync(Guid sessionId, Guid promptId);
         Task<UserPromptAttachment?> UploadAndAttachFileAsync(Guid sessionId, Guid promptId, string fileName, Stream fileStream, string contentType);
+        Task<UserPromptAttachment> SaveUploadedFileAsync(string fileName, Stream fileStream, string contentType);
         Task<bool> RemoveAttachmentAsync(Guid sessionId, Guid promptId, Guid attachmentId);
 
         // System Prompt Management
