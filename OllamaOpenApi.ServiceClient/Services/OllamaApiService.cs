@@ -138,7 +138,7 @@ public class OllamaApiService : IOllamaApiService
     {
         _logger.LogDebug("Calling CreateSessionAsync with request: {Request}", request);
         using var content = new MultipartFormDataContent();
-        
+
         // Add request properties as form fields
         content.Add(new StringContent(request.Model ?? ""), "Model");
         content.Add(new StringContent(request.SystemPromptId?.ToString() ?? ""), "SystemPromptId");

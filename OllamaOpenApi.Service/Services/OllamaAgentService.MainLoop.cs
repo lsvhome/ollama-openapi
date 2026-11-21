@@ -385,13 +385,24 @@ namespace OllamaOpenApi.Service.Services
 
         internal List<Tool> GetAvailableTools()
         {
-            return Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => typeof(Tool).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-                .Select(t => (Tool?)Activator.CreateInstance(t))
-                .Where(t => t != null)
-                .Cast<Tool>()
-                .Distinct()
-                .ToList();
+            List<Tool> ret = new List<Tool>();
+
+            var allowLocalTools = _configuration.GetValue<bool>("allow-local-tools", true);
+
+            if (allowLocalTools)
+            {
+                var localTools = Assembly.GetExecutingAssembly().GetTypes()
+                    .Where(t => typeof(Tool).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    .Select(t => (Tool?)Activator.CreateInstance(t))
+                    .Where(t => t != null)
+                    .Cast<Tool>()
+                    .Distinct()
+                    .ToList();
+
+                ret.AddRange(localTools);
+            }
+
+            return ret;
         }
 
         private ThinkValue MapThinkLevel(int level)

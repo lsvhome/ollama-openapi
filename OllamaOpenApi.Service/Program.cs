@@ -14,6 +14,11 @@ parserResult.WithParsed(options =>
     {
         builder.Configuration["OLLAMA_MODEL"] = options.Model;
     }
+
+    if (options.ToolsAllow.HasValue)
+    {
+        builder.Configuration["allow-local-tools"] = options.ToolsAllow.Value.ToString();
+    }
 });
 
 // Configure Serilog
