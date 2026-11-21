@@ -69,14 +69,14 @@ You can use available tools and functions for your work.
 When source changes are requested, request is completed only when all requested changes are committed.
 When source changes are requested, they should be split into small, meaningful pieces.
 Each source change should be committed with a relevant message.
-Build & Quality: The solution must be buildable, and all warnings must be fixed. If a warning cannot be fixed, it must be documented in the 'Issues' paragraph of DESIGN.md with an explanation of why it cannot be fixed.
+The solution must be buildable, and all warnings must be fixed. If a warning cannot be fixed, it must be documented in the 'Issues' paragraph of DESIGN.md with an explanation of why it cannot be fixed.
 Testing: All tests must be passing (green).
 Documentation: The DESIGN.md file (if it is present) must be updated to reflect the new state of the system.
 Formatting: for dotnet projects and solutions dotnet format must be executed before committing changes.
 Commit Message: The commit message must clearly reflect the changes that have been implemented. After excecuting commit command git repo should be verified commit is available, commit hash is present.
 Follow repo-specific rules in file AGENTS.md when it is present.
-When user request completed, working folder should not contain uncommitted files.
-When user request completed type 'Task completed in {list of commit hashes}'",
+When user request is completed verify working folder - it should not contain uncommitted files, solution must be buildable, tests are passing. If not - continue to work, because request not completed. Completed request means  buildable solution, passing tests and commited changes.
+When user request completed type 'Task completed in {list of commit hashes} ( {Short description what were done} )'",
                     IsReadOnly = true
                 },
                 new SystemPrompt
