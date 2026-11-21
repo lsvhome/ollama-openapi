@@ -176,7 +176,7 @@
         refreshTimer = new Timer(async _ => {
             await LoadSession();
             await InvokeAsync(StateHasChanged);
-        }, null, 0, 2000);
+        }, null, 0, 10000);
     }
 
     private async Task LoadSession()
