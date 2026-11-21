@@ -55,7 +55,7 @@ namespace OllamaOpenApi.Service.Tests
                 Assert.Equal(originalPrompt.Messages[i].Id, deserializedPrompt.Messages[i].Id);
                 Assert.Equal(originalPrompt.Messages[i].ToolName, deserializedPrompt.Messages[i].ToolName);
                 Assert.Equal(originalPrompt.Messages[i].ToolCalls != null, deserializedPrompt.Messages[i].ToolCalls != null);
-                if (originalPrompt.Messages[i].ToolCalls != null)
+                if (originalPrompt.Messages[i]?.ToolCalls?.Any() == true)
                 {
                     for (int j = 0; j < originalPrompt.Messages[i].ToolCalls.Count(); j++)
                     {

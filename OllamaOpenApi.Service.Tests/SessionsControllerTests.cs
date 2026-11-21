@@ -200,7 +200,7 @@ namespace OllamaOpenApi.Service.Tests
             Assert.NotNull(result);
 
             var session = await Client.GetFromJsonAsync<SessionDto>($"/api/sessions/{result.SessionId}");
-            Assert.Equal(workingFolder, session.WorkingFolder);
+            Assert.Equal(workingFolder, session!.WorkingFolder);
         }
 
         [Fact]
@@ -213,7 +213,7 @@ namespace OllamaOpenApi.Service.Tests
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
             var session = await Client.GetFromJsonAsync<SessionDto>($"/api/sessions/{sessionId}");
-            Assert.Equal(newFolder, session.WorkingFolder);
+            Assert.Equal(newFolder, session!.WorkingFolder);
         }
 
         [Fact]
@@ -245,7 +245,7 @@ namespace OllamaOpenApi.Service.Tests
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
             var session = await Client.GetFromJsonAsync<SessionDto>($"/api/sessions/{sessionId}");
-            Assert.Equal(newTitle, session.Title);
+            Assert.Equal(newTitle, session!.Title);
         }
 
         [Fact]

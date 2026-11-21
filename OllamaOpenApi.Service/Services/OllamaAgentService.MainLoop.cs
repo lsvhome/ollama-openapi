@@ -218,7 +218,7 @@ namespace OllamaOpenApi.Service.Services
 
                         _logger.LogDebug("Add not sent message into the message list before stop for session {SessionId} : [{Text}]", session.Id, msgArgs.Message?.Content);
 
-                        if (msgArgs.State is UserPrompt up)
+                        if (msgArgs.State is UserPrompt up && msgArgs.Message != null)
                         {
                             up.Messages.Add(msgArgs.Message);
                         }
