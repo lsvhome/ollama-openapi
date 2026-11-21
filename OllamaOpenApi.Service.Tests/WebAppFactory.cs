@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using OllamaOpenApi.Service.Services;
 
 namespace OllamaOpenApi.Service.Tests
@@ -16,6 +17,8 @@ namespace OllamaOpenApi.Service.Tests
             builder.UseEnvironment("Development");
             builder.ConfigureServices(services =>
             {
+                services.AddSingleton<IMcpConfigService>(Mock.Of<IMcpConfigService>());
+                services.AddSingleton<IHttpClientFactory>(Mock.Of<IHttpClientFactory>());
                 services.AddSingleton<IOllamaAgentService, MockOllamaAgentService>();
             });
         }

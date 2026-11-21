@@ -51,7 +51,6 @@ namespace OllamaOpenApi.Service
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddSingleton<IMcpConfigService, McpConfigService>();
             services.AddSingleton<IExternalSource, ExternalSourceEmail>();
 
             // Register the Agent Service as a Singleton and Hosted Service

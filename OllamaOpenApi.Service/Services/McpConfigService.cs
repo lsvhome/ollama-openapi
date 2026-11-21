@@ -10,18 +10,9 @@ namespace OllamaOpenApi.Service.Services
         Task<McpServerConfig?> GetServerAsync(string name, Guid? sessionId = null);
     }
 
-    public class McpConfigService : IMcpConfigService
+    public partial class OllamaAgentService
     {
-        private readonly ILogger<McpConfigService> _logger;
         private readonly string _globalConfigPath;
-        private readonly OllamaAgentService _agentService;
-
-        public McpConfigService(ILogger<McpConfigService> logger, OllamaAgentService agentService)
-        {
-            _logger = logger;
-            _agentService = agentService;
-            _globalConfigPath = Path.Combine(AppContext.BaseDirectory, "mcp.json");
-        }
 
         public async Task<IEnumerable<McpServerConfig>> GetServersAsync(Guid? sessionId = null)
         {
@@ -37,7 +28,7 @@ namespace OllamaOpenApi.Service.Services
             // Session servers
             if (sessionId.HasValue)
             {
-                var session = await _agentService.GetSessionAsync(sessionId.Value);
+                var session = await this.GetSessionAsync(sessionId.Value);
                 if (session != null && session.McpServers != null)
                 {
                     servers.AddRange(session.McpServers);

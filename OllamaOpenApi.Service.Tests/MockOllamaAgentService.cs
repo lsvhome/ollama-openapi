@@ -23,6 +23,7 @@ namespace OllamaOpenApi.Service.Tests
         public Task ReloadModelAsync(string model) => Task.CompletedTask;
 
         public Task<List<Session>> ListSessionsAsync() => Task.FromResult(_sessions);
+        public Task<Session?> GetSessionAsync(Guid sessionId) => Task.FromResult(_sessions.Single(s => s.Id == sessionId));
         public Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder, List<UserPromptAttachment>? attachments = null)
         {
             var session = new Session
@@ -175,6 +176,16 @@ namespace OllamaOpenApi.Service.Tests
         }
 
         public Task<string> GetOllamaStatusAsync() => Task.FromResult("{\"models\":[]}");
+
+        public Task<IEnumerable<McpServerConfig>> GetServersAsync(Guid? sessionId = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<McpServerConfig?> GetServerAsync(string name, Guid? sessionId = null)
+        {
+            throw new NotImplementedException();
+        }
 
         private class SessionEnvelope
         {

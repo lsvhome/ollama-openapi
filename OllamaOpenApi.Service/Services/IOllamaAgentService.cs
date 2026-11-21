@@ -17,6 +17,7 @@ namespace OllamaOpenApi.Service.Services
 
         // Session Management
         Task<List<Session>> ListSessionsAsync();
+        Task<Session?> GetSessionAsync(Guid sessionId);
         Task<Guid> CreateSessionAsync(string? model, int? systemPromptId, int thinkLevel, string? prompt, string? title, string? systemPromptText, string? workingFolder, List<UserPromptAttachment>? attachments = null);
         Task UpdateSessionSystemPromptAsync(Guid sessionId, string prompt);
         Task UpdateSessionTitleAsync(Guid sessionId, string title);
@@ -57,5 +58,9 @@ namespace OllamaOpenApi.Service.Services
 
         // Status Management
         Task<string> GetOllamaStatusAsync();
+
+        // MCP servers
+        Task<IEnumerable<McpServerConfig>> GetServersAsync(Guid? sessionId = null);
+        Task<McpServerConfig?> GetServerAsync(string name, Guid? sessionId = null);
     }
 }

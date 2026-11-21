@@ -28,6 +28,7 @@ namespace OllamaOpenApi.Service.Services
 
         private readonly IConfiguration _configuration;
         private readonly ILogger<OllamaAgentService> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
         private OllamaSharp.IOllamaApiClient? _ollamaClient;
 
         private readonly List<ModelInfo> _models = new();
@@ -35,11 +36,12 @@ namespace OllamaOpenApi.Service.Services
         private ExecutionList _executionList = new()!;
         private CancellationTokenSource _activeSessionCts = new();
 
-        public OllamaAgentService(IConfiguration configuration, IExternalSource externalSource, ILogger<OllamaAgentService> logger)
+        public OllamaAgentService(IConfiguration configuration, IExternalSource externalSource, ILogger<OllamaAgentService> logger, IHttpClientFactory httpClientFactory)
         {
             _configuration = configuration;
             _externalSource = externalSource;
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         private string SessionFilePath => _configuration["SessionFilePath"] ?? "sessions.json";

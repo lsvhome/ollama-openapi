@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol;
 using OllamaOpenApi.Dto;
 using OllamaOpenApi.Service.Tools;
 using OllamaSharp;
@@ -151,7 +153,7 @@ namespace OllamaOpenApi.Service.Services
                     _logger.LogDebug("Full thought for session {SessionId} : [{Text}]", session.Id, thoughts.Text);
                     if (thoughts.State is UserPrompt up)
                     {
-                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text){ Thinking = thoughts.Text });
+                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text) { Thinking = thoughts.Text });
                     }
                 }
                 catch (Exception ex)
@@ -234,7 +236,7 @@ namespace OllamaOpenApi.Service.Services
                 }
             };
 
-            var tools = GetAvailableTools();
+            var tools = await GetAvailableToolsAsync(session.Id);
 
             var queriesToProcess = session.UserPrompts
                 .Where(q => q.Status == UserPromptStatus.Ready || q.Status == UserPromptStatus.InProgress)
@@ -383,26 +385,107 @@ namespace OllamaOpenApi.Service.Services
 
         // public static List<OllamaSharp.Models.Chat.Tool> Tools1 { get; } = [new FileWriteTool()];
 
-        internal List<Tool> GetAvailableTools()
+        internal async Task<List<OllamaSharp.Models.Chat.Tool>> GetAvailableToolsAsync(Guid? sessionId = null)
         {
-            List<Tool> ret = new List<Tool>();
+            List<OllamaSharp.Models.Chat.Tool> ret = new List<OllamaSharp.Models.Chat.Tool>();
 
             var allowLocalTools = _configuration.GetValue<bool>("allow-local-tools", true);
 
             if (allowLocalTools)
             {
                 var localTools = Assembly.GetExecutingAssembly().GetTypes()
-                    .Where(t => typeof(Tool).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-                    .Select(t => (Tool?)Activator.CreateInstance(t))
+                    .Where(t => typeof(OllamaSharp.Models.Chat.Tool).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    .Select(t => (OllamaSharp.Models.Chat.Tool?)Activator.CreateInstance(t))
                     .Where(t => t != null)
-                    .Cast<Tool>()
+                    .Cast<OllamaSharp.Models.Chat.Tool>()
                     .Distinct()
                     .ToList();
 
                 ret.AddRange(localTools);
             }
 
+            try
+            {
+                var servers = await this.GetServersAsync(sessionId);
+                foreach (var server in servers)
+                {
+                    if (server.Type != "http") continue;
+
+                    var clientTransport = new HttpClientTransport(new()
+                    {
+                        Endpoint = new Uri(server.Url)
+                    });
+
+                    await using (var mcpClient = await McpClient.CreateAsync(clientTransport!))
+                    {
+                        var mcpTools = await mcpClient.ListToolsAsync();
+                        foreach (var mcpTool in mcpTools)
+                        {
+                            var json = System.Text.Json.JsonSerializer.Serialize(mcpTool);
+                            using var doc = System.Text.Json.JsonDocument.Parse(json);
+                            var root = doc.RootElement;
+
+                            ret.Add(new OllamaSharp.Models.Chat.Tool
+                            {
+                                Function = new OllamaSharp.Models.Chat.Function
+                                {
+                                    Name = root.TryGetProperty("name", out var n) ? n.GetString() : root.TryGetProperty("Name", out var n2) ? n2.GetString() : null,
+                                    Description = root.TryGetProperty("description", out var d) ? d.GetString() : root.TryGetProperty("Description", out var d2) ? d2.GetString() : null,
+                                    Parameters = MapMcpInputSchemaToParameters(root.TryGetProperty("inputSchema", out var s) ? s : root.TryGetProperty("InputSchema", out var s2) ? s2 : default)
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching tools from MCP servers");
+            }
+
             return ret;
+        }
+
+        private OllamaSharp.Models.Chat.Parameters? MapMcpInputSchemaToParameters(System.Text.Json.JsonElement schema)
+        {
+            if (schema.ValueKind != System.Text.Json.JsonValueKind.Object) return null;
+
+            var parameters = new OllamaSharp.Models.Chat.Parameters();
+
+            if (schema.TryGetProperty("type", out var typeProp))
+            {
+                parameters.Type = typeProp.GetString();
+            }
+
+            if (schema.TryGetProperty("properties", out var propertiesProp) && propertiesProp.ValueKind == System.Text.Json.JsonValueKind.Object)
+            {
+                parameters.Properties = new Dictionary<string, OllamaSharp.Models.Chat.Property>();
+                foreach (var prop in propertiesProp.EnumerateObject())
+                {
+                    var propValue = prop.Value;
+                    var property = new OllamaSharp.Models.Chat.Property();
+                    if (propValue.TryGetProperty("type", out var pType))
+                    {
+                        property.Type = pType.GetString();
+                    }
+                    if (propValue.TryGetProperty("description", out var pDesc))
+                    {
+                        property.Description = pDesc.GetString();
+                    }
+                    if (propValue.TryGetProperty("enum", out var pEnum) && pEnum.ValueKind == System.Text.Json.JsonValueKind.Array)
+                    {
+                        property.Enum = pEnum.EnumerateArray().Select(e => e.GetString()).ToList();
+                    }
+                    parameters.Properties.Add(prop.Name, property);
+                }
+            }
+
+            if (schema.TryGetProperty("required", out var requiredProp) && requiredProp.ValueKind == System.Text.Json.JsonValueKind.Array)
+            {
+                parameters.Required = requiredProp.EnumerateArray().Select(r => r.GetString()).ToList();
+            }
+
+            return parameters;
         }
 
         private ThinkValue MapThinkLevel(int level)
