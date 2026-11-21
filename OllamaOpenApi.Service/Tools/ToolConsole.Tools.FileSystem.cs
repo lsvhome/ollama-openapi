@@ -11,6 +11,7 @@ namespace OllamaOpenApi.Service.Tools;
 public partial class ToolConsole
 {
     public static object commandLock = new object();
+
     /// <summary>
     /// Write contents to a file at a given path.
     /// </summary>
@@ -31,6 +32,29 @@ public partial class ToolConsole
         }
 
         System.IO.File.WriteAllText(path, contents);
+        return $"Contents has been written successfully to: {path}";
+    }
+
+    /// <summary>
+    /// Write base64 contents as binary data to a file at a given path.
+    /// </summary>
+    /// <param name="path">[Required] The path of the file to write to.</param>
+    /// <param name="contents">The base64 content to write to the file.</param>
+    [OllamaTool]
+    public static string FileWriteBase64([Required] string path, string base64Contents)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentException("path not provided, but is required parameter", nameof(path));
+        }
+
+        var parentDirectory = Path.GetDirectoryName(path);
+        if (!string.IsNullOrWhiteSpace(parentDirectory))
+        {
+            EnsureDirectoryExists(parentDirectory);
+        }
+
+        System.IO.File.WriteAllBytes(path, Convert.FromBase64String(base64Contents));
         return $"Contents has been written successfully to: {path}";
     }
 
