@@ -57,10 +57,10 @@ namespace OllamaOpenApi.Service.Tests
                 Assert.Equal(originalPrompt.Messages[i].ToolCalls != null, deserializedPrompt.Messages[i].ToolCalls != null);
                 if (originalPrompt.Messages[i]?.ToolCalls?.Any() == true)
                 {
-                    for (int j = 0; j < originalPrompt.Messages[i].ToolCalls.Count(); j++)
+                    for (int j = 0; j < originalPrompt.Messages[i].ToolCalls!.Count(); j++)
                     {
-                        Assert.Equal(originalPrompt.Messages[i].ToolCalls.Skip(j).FirstOrDefault().Id, deserializedPrompt.Messages[i].ToolCalls.Skip(j).FirstOrDefault().Id);
-                        Assert.Equal(originalPrompt.Messages[i].ToolCalls.Skip(j).FirstOrDefault().Function.Name, deserializedPrompt.Messages[i].ToolCalls.Skip(j).FirstOrDefault().Function.Name);
+                        Assert.Equal(originalPrompt!.Messages[i]!.ToolCalls!.Skip(j).FirstOrDefault()!.Id, deserializedPrompt.Messages[i].ToolCalls!.Skip(j).FirstOrDefault()!.Id);
+                        Assert.Equal(originalPrompt!.Messages[i]!.ToolCalls!.Skip(j).FirstOrDefault()!.Function!.Name, deserializedPrompt.Messages[i].ToolCalls!.Skip(j).FirstOrDefault()!.Function!.Name);
                     }
                 }
             }
