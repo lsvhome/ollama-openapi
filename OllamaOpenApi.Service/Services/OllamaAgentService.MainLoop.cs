@@ -151,7 +151,7 @@ namespace OllamaOpenApi.Service.Services
                     _logger.LogDebug("Full thought for session {SessionId} : [{Text}]", session.Id, thoughts.Text);
                     if (thoughts.State is UserPrompt up)
                     {
-                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text));
+                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text){ Thinking = thoughts.Text });
                     }
                 }
                 catch (Exception ex)
