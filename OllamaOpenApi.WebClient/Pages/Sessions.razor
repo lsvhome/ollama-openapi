@@ -103,8 +103,8 @@
     <button class="btn btn-secondary me-2" @onclick="SaveAll">Save All</button>
     <button class="btn btn-danger me-4" @onclick="ClearAll">Clear All</button>
     <div class="form-check d-inline-block">
-        <input class="form-check-input" type="checkbox" @bind="showArchived" @bind:after="LoadSessions" id="showArchived">
-        <label class="form-check-label" for="showArchived">Show Archived</label>
+        <input class="form-check-input" type="checkbox" @bind="showArchivedOnly" @bind:after="LoadSessions" id="showArchivedOnly">
+        <label class="form-check-label" for="showArchivedOnly">Show Archived only</label>
     </div>
 </div>
 
@@ -161,7 +161,7 @@
     private List<SessionDto> sessions = new();
     private List<ModelDto> models = new();
     private List<SystemPrompt> systemPrompts = new();
-    private bool showArchived = false;
+    private bool showArchivedOnly = false;
 
     private string? selectedModelName = "";
     private int? selectedSystemPromptId = null;
@@ -279,8 +279,8 @@
     private async Task LoadSessions()
     {
         var allSessions = await ApiService.GetSessionsAsync();
-        sessions = (showArchived 
-            ? allSessions 
+        sessions = (showArchivedOnly
+            ? allSessions.Where(s => s.Archived)
             : allSessions.Where(s => !s.Archived))
             .OrderBy(s => s.Status)
             .ToList();
