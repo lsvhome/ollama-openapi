@@ -4,15 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace OllamaOpenApi.Service.Services
 {
-    public interface IMcpConfigService
-    {
-        Task<IEnumerable<McpServerConfig>> GetServersAsync(Guid? sessionId = null);
-        Task<McpServerConfig?> GetServerAsync(string name, Guid? sessionId = null);
-    }
-
     public partial class OllamaAgentService
     {
-        private readonly string _globalConfigPath;
 
         public async Task<IEnumerable<McpServerConfig>> GetServersAsync(Guid? sessionId = null)
         {
@@ -46,9 +39,9 @@ namespace OllamaOpenApi.Service.Services
 
         private async Task<McpGlobalConfig?> LoadGlobalConfigAsync()
         {
-            if (!File.Exists(_globalConfigPath))
+            if (!File.Exists(GlobalMCPConfigPath))
             {
-                var exampleMcpServeronfigNPath = _globalConfigPath + ".example";
+                var exampleMcpServeronfigNPath = GlobalMCPConfigPath + ".example";
                 if (!File.Exists(exampleMcpServeronfigNPath))
                 {
                     var examole001 = new McpServerConfig
@@ -83,7 +76,7 @@ namespace OllamaOpenApi.Service.Services
                         PropertyNameCaseInsensitive = true
                     });
 
-                    await File.WriteAllTextAsync(_globalConfigPath + ".example", json);
+                    await File.WriteAllTextAsync(GlobalMCPConfigPath + ".example", json);
                 }
 
                 return null;
@@ -91,7 +84,7 @@ namespace OllamaOpenApi.Service.Services
 
             try
             {
-                var json = await File.ReadAllTextAsync(_globalConfigPath);
+                var json = await File.ReadAllTextAsync(GlobalMCPConfigPath);
                 return JsonSerializer.Deserialize<McpGlobalConfig>(json, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -99,7 +92,7 @@ namespace OllamaOpenApi.Service.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error loading global MCP configuration from {Path}", _globalConfigPath);
+                _logger.LogError(ex, "Error loading global MCP configuration from {Path}", GlobalMCPConfigPath);
                 return null;
             }
         }

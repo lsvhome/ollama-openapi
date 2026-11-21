@@ -45,6 +45,7 @@ namespace OllamaOpenApi.Service.Services
         }
 
         private string SessionFilePath => _configuration["SessionFilePath"] ?? "sessions.json";
+        private string GlobalMCPConfigPath => _configuration["GlobalMCPConfigPath"] ?? "mcp.json";
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {

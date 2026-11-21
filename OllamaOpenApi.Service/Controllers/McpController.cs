@@ -10,13 +10,13 @@ namespace OllamaOpenApi.Service.Controllers
     [Route("api/mcp")]
     public class McpController : ControllerBase
     {
-        private readonly IMcpConfigService _configService;
+        private readonly IOllamaAgentService _configService;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<McpController> _logger;
 
-        public McpController(IMcpConfigService configService, IHttpClientFactory httpClientFactory, ILogger<McpController> logger)
+        public McpController(IOllamaAgentService agent, IHttpClientFactory httpClientFactory, ILogger<McpController> logger)
         {
-            _configService = configService;
+            _configService = agent;
             _httpClientFactory = httpClientFactory;
             _logger = logger;
         }

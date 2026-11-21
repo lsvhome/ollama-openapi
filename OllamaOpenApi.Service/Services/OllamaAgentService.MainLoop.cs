@@ -153,7 +153,7 @@ namespace OllamaOpenApi.Service.Services
                     _logger.LogDebug("Full thought for session {SessionId} : [{Text}]", session.Id, thoughts.Text);
                     if (thoughts.State is UserPrompt up)
                     {
-                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text) { Thinking = thoughts.Text });
+                        up.Thoughts.Add(new Message(ChatRole.Assistant, thoughts.Text ?? "") { Thinking = thoughts.Text });
                     }
                 }
                 catch (Exception ex)
@@ -209,14 +209,14 @@ namespace OllamaOpenApi.Service.Services
             {
                 try
                 {
-                    if (msgArgs == null || string.IsNullOrWhiteSpace(msgArgs.Message.Content)) return;
-                    _logger.LogDebug("Going to send chat message for session {SessionId} : [{Text}]", session.Id, msgArgs.Message.Content);
+                    if (msgArgs == null || string.IsNullOrWhiteSpace(msgArgs.Message?.Content)) return;
+                    _logger.LogDebug("Going to send chat message for session {SessionId} : [{Text}]", session.Id, msgArgs.Message?.Content);
 
                     if (_executionList.Status != ExecutionListStatus.InProgress)
                     {
                         _logger.LogInformation("Execution list paused. Stopping processing of session {SessionId}.", session.Id);
 
-                        _logger.LogDebug("Add not sent message into the message list before stop for session {SessionId} : [{Text}]", session.Id, msgArgs.Message.Content);
+                        _logger.LogDebug("Add not sent message into the message list before stop for session {SessionId} : [{Text}]", session.Id, msgArgs.Message?.Content);
 
                         if (msgArgs.State is UserPrompt up)
                         {
@@ -474,7 +474,7 @@ namespace OllamaOpenApi.Service.Services
                     }
                     if (propValue.TryGetProperty("enum", out var pEnum) && pEnum.ValueKind == System.Text.Json.JsonValueKind.Array)
                     {
-                        property.Enum = pEnum.EnumerateArray().Select(e => e.GetString()).ToList();
+                        property.Enum = pEnum.EnumerateArray().Select(e => e.GetString() ?? "").ToList();
                     }
                     parameters.Properties.Add(prop.Name, property);
                 }
@@ -482,7 +482,7 @@ namespace OllamaOpenApi.Service.Services
 
             if (schema.TryGetProperty("required", out var requiredProp) && requiredProp.ValueKind == System.Text.Json.JsonValueKind.Array)
             {
-                parameters.Required = requiredProp.EnumerateArray().Select(r => r.GetString()).ToList();
+                parameters.Required = requiredProp.EnumerateArray().Select(r => r.GetString() ?? "").ToList();
             }
 
             return parameters;

@@ -17,7 +17,6 @@ namespace OllamaOpenApi.Service.Tests
             builder.UseEnvironment("Development");
             builder.ConfigureServices(services =>
             {
-                services.AddSingleton<IMcpConfigService>(Mock.Of<IMcpConfigService>());
                 services.AddSingleton<IHttpClientFactory>(Mock.Of<IHttpClientFactory>());
                 services.AddSingleton<IOllamaAgentService, MockOllamaAgentService>();
             });
