@@ -11,7 +11,7 @@ OllamaOpenApi is a REST API wrapper around Ollama, facilitating session manageme
 - **Tests**: .NET Unit Tests (`OllamaOpenApi.Service.Tests`)
 
 ## Development commands
-- Build: dotnet build
+- Build: dotnet build -v m
 - Test: dotnet test
 
 ## Contribution Guidelines
