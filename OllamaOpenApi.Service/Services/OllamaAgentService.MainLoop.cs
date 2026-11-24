@@ -404,10 +404,10 @@ namespace OllamaOpenApi.Service.Services
                 ret.AddRange(localTools);
             }
 
-            try
+            var servers = await this.GetServersAsync(sessionId);
+            foreach (var server in servers)
             {
-                var servers = await this.GetServersAsync(sessionId);
-                foreach (var server in servers)
+                try
                 {
                     if (server.Type != "http") continue;
 
@@ -437,10 +437,10 @@ namespace OllamaOpenApi.Service.Services
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error fetching tools from MCP servers");
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error fetching tools from MCP server {McpServerName}", server?.Name);
+                }
             }
 
             return ret;
